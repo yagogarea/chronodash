@@ -26,7 +26,10 @@ defmodule Chronodash.MixProject do
 
   def cli do
     [
-      preferred_envs: [precommit: :test]
+      preferred_envs: [
+        format: :test,
+        credo: :test
+      ]
     ]
   end
 
@@ -39,6 +42,7 @@ defmodule Chronodash.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:credo, "~> 1.7", only: [:test], runtime: false},
       {:phoenix, "~> 1.8.1"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13"},
