@@ -1,18 +1,18 @@
 ---
 name: Bug report
-about: Reporta un bug en el proyecto
+about: Report a bug in the project
 title: ''
 labels: bug
 assignees: ''
 ---
-## Pasos para reproducir
-Describe paso a paso como reproducir el bug
+## Steps to reproduce
+Describe step by step how to reproduce the bug
 
-## Comportamiento esperado
-Que deberia pasar
+## Expected behavior
+What should happen
 
-## Comportamiento actual
-Que esta pasando
+## Current behavior
+What actually happens
 
-## Capturas de pantalla
-Si aplica, agrega screenshots
+## Screenshots
+If applicable, add screenshots

@@ -1,12 +1,12 @@
-## Descripcion
-Explica brevemente que hace este Pull Request.
+## Description
+Briefly describe what this Pull Request does.
 
-## Tipo de cambio
+## Type of change
 - [ ] Bug fix
-- [ ] Nueva funcionalidad
-- [ ] Mejora de documentacion
+- [ ] New feature
+- [ ] Documentation improvement
 
 ## Checklist
-- [ ] He probado los cambios
-- [ ] He agregado tests si aplica
-- [ ] He documentado los cambios
+- [ ] I have tested the changes
+- [ ] I have added tests if applicable
+- [ ] I have documented the changes

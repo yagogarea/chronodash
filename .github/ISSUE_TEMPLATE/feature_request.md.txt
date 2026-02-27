@@ -1,12 +1,12 @@
 ---
 name: Feature request
-about: Sugiere una nueva funcionalidad
+about: Suggest a new feature
 title: ''
 labels: enhancement
 assignees: ''
 ---
-## Descripcion
-Explica la nueva funcionalidad
+## Description
+Explain the new feature
 
-## Beneficios
-Porque seria util agregar esto
+## Benefits
+Why it would be useful to add this
