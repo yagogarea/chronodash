@@ -9,6 +9,12 @@ defmodule ChronodashWeb.Router do
     pipe_through :api
   end
 
+  scope "/api", ChronodashWeb do
+    pipe_through :api
+
+    get "/health", HealthController, :show
+  end
+
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:chronodash, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
