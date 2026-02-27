@@ -20,7 +20,11 @@ config :chronodash, ChronodashWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Chronodash.PubSub,
-  live_view: [signing_salt: "8bKVsRKc"]
+  live_view: [signing_salt: "8bKVsRKc"],
+  exclude: [
+    # paths: ["/health"],
+    hosts: ["localhost", "127.0.0.1"]
+  ]
 
 # Configures the mailer
 #
