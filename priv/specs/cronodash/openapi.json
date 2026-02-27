@@ -1,0 +1,362 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CronoDash API",
+    "version": "0.1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/api/1",
+      "description": "Local API v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Operations related to users"
+    }
+  ],
+  "security": [],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "List all users",
+        "operationId": "listUsers",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/UserListResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user",
+        "operationId": "createUser",
+        "tags": ["Users"],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CreateUserRequest"
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/UserResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get a user by ID",
+        "operationId": "getUser",
+        "tags": ["Users"],
+        "parameters": [
+          { "$ref": "#/components/parameters/UserId" }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/UserResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a user",
+        "operationId": "updateUser",
+        "tags": ["Users"],
+        "parameters": [
+          { "$ref": "#/components/parameters/UserId" }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UpdateUserRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/UserResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "operationId": "deleteUser",
+        "tags": ["Users"],
+        "parameters": [
+          { "$ref": "#/components/parameters/UserId" }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/NoContent"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "UserId": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "schemas": {
+      "Localization": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "Interest": {
+        "type": "string",
+        "enum": ["surf", "running", "farming", "skiing"]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "localization": {
+            "$ref": "#/components/schemas/Localization"
+          },
+          "timezone": {
+            "type": "string",
+            "default": "Europe/Madrid"
+          },
+          "interests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Interest"
+            }
+          },
+          "notification_channels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["discord", "telegram"]
+            }
+          },
+          "alert_hours": {
+            "type": "string",
+            "description": "Time window for notifications e.g. '07:00-22:00'"
+          },
+          "is_active": {
+            "type": "boolean",
+            "default": true
+          },
+          "inserted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["id", "name", "email", "inserted_at", "updated_at"]
+      },
+      "CreateUser": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "city": { "type": "string" },
+          "localization": {
+            "$ref": "#/components/schemas/Localization"
+          },
+          "timezone": {
+            "type": "string",
+            "default": "Europe/Madrid"
+          },
+          "interests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Interest"
+            }
+          },
+          "notification_channels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["discord", "telegram"]
+            }
+          },
+          "alert_hours": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": ["name", "email"]
+      },
+      "UpdateUser": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "city": { "type": "string" },
+          "localization": {
+            "$ref": "#/components/schemas/Localization"
+          },
+          "timezone": { "type": "string" },
+          "interests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Interest"
+            }
+          },
+          "notification_channels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["discord", "telegram"]
+            }
+          },
+          "alert_hours": { "type": "string" },
+          "is_active": { "type": "boolean" }
+        },
+        "minProperties": 1
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" }
+        }
+      }
+    },
+    "requestBodies": {
+      "CreateUserRequest": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateUser"
+            }
+          }
+        }
+      },
+      "UpdateUserRequest": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateUser"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "UserResponse": {
+        "description": "User",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "UserListResponse": {
+        "description": "List of users",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NoContent": {
+        "description": "No Content"
+      }
+    }
+  }
+}
