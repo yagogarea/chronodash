@@ -1,0 +1,12 @@
+---
+name: Feature request
+about: Sugiere una nueva funcionalidad
+title: ''
+labels: enhancement
+assignees: ''
+---
+## Descripcion
+Explica la nueva funcionalidad
+
+## Beneficios
+Porque seria util agregar esto

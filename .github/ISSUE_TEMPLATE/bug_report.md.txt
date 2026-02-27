@@ -1,0 +1,18 @@
+---
+name: Bug report
+about: Reporta un bug en el proyecto
+title: ''
+labels: bug
+assignees: ''
+---
+## Pasos para reproducir
+Describe paso a paso como reproducir el bug
+
+## Comportamiento esperado
+Que deberia pasar
+
+## Comportamiento actual
+Que esta pasando
+
+## Capturas de pantalla
+Si aplica, agrega screenshots

@@ -1,0 +1,12 @@
+## Descripcion
+Explica brevemente que hace este Pull Request.
+
+## Tipo de cambio
+- [ ] Bug fix
+- [ ] Nueva funcionalidad
+- [ ] Mejora de documentacion
+
+## Checklist
+- [ ] He probado los cambios
+- [ ] He agregado tests si aplica
+- [ ] He documentado los cambios
