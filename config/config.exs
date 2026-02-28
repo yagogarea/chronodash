@@ -13,7 +13,7 @@ config :ash, known_types: [AshPostgres.Timestamptz, AshPostgres.TimestamptzUsec]
 config :chronodash,
   ecto_repos: [Chronodash.Repo],
   generators: [timestamp_type: :utc_datetime],
-  ash_domains: [Chronodash.Accounts, Chronodash.Accounts]
+  ash_domains: [Chronodash.Accounts, Chronodash.Metrics]
 
 # Configures the endpoint
 config :chronodash, ChronodashWeb.Endpoint,
@@ -53,6 +53,21 @@ config :logger, :default_formatter,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# Finch configuration
+config :chronodash, :http_client, Chronodash.HttpClient.Finch
+
+config :chronodash, :default_http_client_config,
+  name: Chronodash.Finch,
+  pools: %{
+    default: [
+      conn_opts: [
+        transport_opts: [
+          verify: :verify_peer
+        ]
+      ]
+    ]
+  }
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
