@@ -1,10 +1,9 @@
 defmodule Chronodash.Models.DataSource.MeteoSIX.WRF.ForecastTest do
   use ExUnit.Case, async: true
-  alias Chronodash.Metrics.ObservationData
   alias Chronodash.Models.DataSource.MeteoSIX.WRF.Forecast
 
-  describe "to_observation_data/2" do
-    test "correctly parses and normalizes simple metric (temperature)" do
+  describe "new/2" do
+    test "correctly parses simple metric (temperature)" do
       response = %{
         "features" => [
           %{
@@ -29,20 +28,20 @@ defmodule Chronodash.Models.DataSource.MeteoSIX.WRF.ForecastTest do
         ]
       }
 
-      observations = Forecast.to_observation_data(response, :temperature)
-      assert is_list(observations)
-      [obs] = observations
+      assert %Forecast{} = forecast = Forecast.new(response, :temperature)
+      assert forecast.location_name == "Test City"
+      assert forecast.coords == {43.37, -8.42}
+      assert forecast.metric_type == :temperature
 
-      assert %ObservationData{} = obs
-      assert obs.location_name == "Test City"
-      assert obs.latitude == 43.37
-      assert obs.metric_type == "temperature"
-      assert obs.value == 15.5
-      assert obs.unit == "degC"
-      assert obs.timestamp == ~U[2026-02-28 09:00:00Z]
+      [point] = forecast.points
+      assert point.timestamp == ~U[2026-02-28 09:00:00Z]
+      [metric] = point.metrics
+      assert metric.name == "temperature"
+      assert metric.value == "15.5"
+      assert metric.unit == "degC"
     end
 
-    test "correctly parses and splits composite metric (wind)" do
+    test "correctly parses composite metric (wind)" do
       response = %{
         "features" => [
           %{
@@ -72,11 +71,14 @@ defmodule Chronodash.Models.DataSource.MeteoSIX.WRF.ForecastTest do
         ]
       }
 
-      observations = Forecast.to_observation_data(response, :wind)
-      assert length(observations) == 2
+      assert %Forecast{} = forecast = Forecast.new(response, :wind)
+      assert forecast.metric_type == :wind
 
-      module = Enum.find(observations, &(&1.metric_type == "wind_module"))
-      direction = Enum.find(observations, &(&1.metric_type == "wind_direction"))
+      [point] = forecast.points
+      assert length(point.metrics) == 2
+
+      module = Enum.find(point.metrics, &(&1.name == "wind_module"))
+      direction = Enum.find(point.metrics, &(&1.name == "wind_direction"))
 
       assert module.value == 20.0
       assert module.unit == "kmh"
@@ -84,7 +86,7 @@ defmodule Chronodash.Models.DataSource.MeteoSIX.WRF.ForecastTest do
       assert direction.unit == "deg"
     end
 
-    test "normalizes sky state strings to numeric values" do
+    test "returns raw sky state strings" do
       response = %{
         "features" => [
           %{
@@ -107,8 +109,10 @@ defmodule Chronodash.Models.DataSource.MeteoSIX.WRF.ForecastTest do
         ]
       }
 
-      [obs] = Forecast.to_observation_data(response, :sky_state)
-      assert obs.value == 2.0
+      forecast = Forecast.new(response, :sky_state)
+      [point] = forecast.points
+      [metric] = point.metrics
+      assert metric.value == "PARTLY_CLOUDY"
     end
   end
 end

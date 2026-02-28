@@ -32,48 +32,6 @@
           "color": {
             "mode": "palette-classic"
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
           "unit": "celsius"
         },
         "overrides": []
@@ -87,7 +45,6 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -104,23 +61,8 @@
             "uid": "PostgreSQL"
           },
           "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-"rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Temperature\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'temperature'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "timestamp",
-          "where": []
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Temperature\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'temperature'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
+          "refId": "A"
         }
       ],
       "title": "Temperature Forecast",
@@ -136,48 +78,6 @@
           "color": {
             "mode": "palette-classic"
           },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
           "unit": "lengthmm"
         },
         "overrides": []
@@ -191,7 +91,6 @@
       "id": 2,
       "options": {
         "legend": {
-          "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -208,8 +107,7 @@
             "uid": "PostgreSQL"
           },
           "format": "time_series",
-          "rawQuery": true,
-"rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  SUM(value) as \"Precipitation\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'precipitation_amount'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  SUM(value) as \"Precipitation\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'precipitation_amount'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -223,50 +121,18 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "mappings": [
             {
               "options": {
-                "1": {
-                  "color": "yellow",
-                  "index": 0,
-                  "text": "SUNNY"
-                },
-                "2": {
-                  "color": "light-blue",
-                  "index": 1,
-                  "text": "PARTLY_CLOUDY"
-                },
-                "3": {
-                  "color": "blue",
-                  "index": 2,
-                  "text": "HIGH_CLOUDS"
-                },
-                "4": {
-                  "color": "grey",
-                  "index": 3,
-                  "text": "CLOUDY"
-                },
-                "5": {
-                  "color": "dark-grey",
-                  "index": 4,
-                  "text": "OVERCAST"
-                }
+                "1": { "color": "yellow", "text": "SUNNY" },
+                "2": { "color": "light-blue", "text": "PARTLY_CLOUDY" },
+                "3": { "color": "blue", "text": "HIGH_CLOUDS" },
+                "4": { "color": "grey", "text": "CLOUDY" },
+                "5": { "color": "dark-grey", "text": "OVERCAST" }
               },
               "type": "value"
             }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
+          ]
         },
         "overrides": []
       },
@@ -277,21 +143,6 @@
         "y": 8
       },
       "id": 3,
-      "options": {
-        "alignValue": "left",
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "mergeValues": true,
-        "rowHeight": 0.9,
-        "showValue": "always",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
       "targets": [
         {
           "datasource": {
@@ -299,8 +150,7 @@
             "uid": "PostgreSQL"
           },
           "format": "time_series",
-          "rawQuery": true,
-"rawSql": "SELECT\n  timestamp as time,\n  value as \"Sky State\",\n  locations.name as location\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'sky_state'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nORDER BY 1",
+          "rawSql": "SELECT\n  timestamp as time,\n  value as \"Sky State\",\n  locations.name as location\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'sky_state'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -314,9 +164,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "unit": "percent"
         },
         "overrides": []
@@ -335,8 +182,7 @@
             "uid": "PostgreSQL"
           },
           "format": "time_series",
-          "rawQuery": true,
-"rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Humidity\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'relative_humidity'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Humidity\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'relative_humidity'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -350,9 +196,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "unit": "percent"
         },
         "overrides": []
@@ -371,8 +214,7 @@
             "uid": "PostgreSQL"
           },
           "format": "time_series",
-          "rawQuery": true,
-"rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Clouds\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'cloud_area_fraction'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Clouds\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'cloud_area_fraction'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -386,9 +228,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "unit": "velocitykmh"
         },
         "overrides": []
@@ -407,8 +246,7 @@
             "uid": "PostgreSQL"
           },
           "format": "time_series",
-          "rawQuery": true,
-"rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Wind Speed\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'wind'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Wind Speed\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'wind_module'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -422,9 +260,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "unit": "pressurehpa"
         },
         "overrides": []
@@ -443,8 +278,7 @@
             "uid": "PostgreSQL"
           },
           "format": "time_series",
-          "rawQuery": true,
-"rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Pressure\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'air_pressure_at_sea_level'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Pressure\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'air_pressure_at_sea_level'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
@@ -458,9 +292,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
           "unit": "lengthm"
         },
         "overrides": []
@@ -479,12 +310,43 @@
             "uid": "PostgreSQL"
           },
           "format": "time_series",
-          "rawQuery": true,
-"rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Snow Level\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'snow_level'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Snow Level\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'snow_level'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
           "refId": "A"
         }
       ],
       "title": "Snow Level",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "PostgreSQL"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "degree"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 28
+      },
+      "id": 9,
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PostgreSQL"
+          },
+          "format": "time_series",
+          "rawSql": "SELECT\n  $__timeGroupAlias(timestamp, 1h),\n  AVG(value) as \"Wind Direction\"\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'wind_direction'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nGROUP BY 1\nORDER BY 1",
+          "refId": "A"
+        }
+      ],
+      "title": "Wind Direction",
       "type": "timeseries"
     }
   ],
@@ -497,7 +359,11 @@
   "templating": {
     "list": [
       {
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": {
           "type": "postgres",
           "uid": "PostgreSQL"
@@ -525,5 +391,5 @@
   "timezone": "",
   "title": "MeteoSIX WRF Forecast",
   "uid": "meteosix_wrf",
-  "version": 1
+  "version": 6
 }

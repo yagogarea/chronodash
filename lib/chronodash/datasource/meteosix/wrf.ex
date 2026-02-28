@@ -6,12 +6,15 @@ defmodule Chronodash.DataSource.MeteoSIX.WRF do
   alias MeteoSIX.WRF
 
   @doc """
-  Fetches forecast from MeteoSIX and returns a list of standardized ObservationData structs.
+  Fetches forecast from MeteoSIX and parses it into a DTO.
   """
   def get_forecast(id_or_coords, var_atom, opts \\ []) do
     case WRF.get_forecast(id_or_coords, var_atom, opts) do
       {:ok, response} ->
-        {:ok, Forecast.to_observation_data(response, var_atom)}
+        case Forecast.new(response, var_atom) do
+          %Forecast{} = forecast -> {:ok, forecast}
+          {:error, _} = error -> error
+        end
 
       {:error, reason} ->
         {:error, reason}

@@ -1,7 +1,6 @@
 defmodule Chronodash.Polling.Worker do
   @moduledoc """
-  A generic worker that polls a datasource and saves results in bulk.
-  Decoupled from specific datasource logic via standardize ObservationData.
+  A generic worker that polls a datasource and saves results.
   """
   use GenServer
   require Logger
@@ -35,104 +34,146 @@ defmodule Chronodash.Polling.Worker do
     {mod, fun, args} = state.mfa
 
     case apply(mod, fun, args) do
-      {:ok, observations} when is_list(observations) ->
-        handle_observations(observations, state)
+      {:ok, forecast} ->
+        handle_success(forecast, state)
 
       {:error, reason} ->
         Logger.error("Polling job #{state.id} failed: #{inspect(reason)}")
-        emit_run_telemetry(state, :error)
+        emit_telemetry(state, :error, %{reason: inspect(reason)})
     end
 
     schedule_next(state.rate)
     {:noreply, state}
   end
 
-  defp handle_observations([], state) do
-    Logger.debug("Polling job #{state.id} returned no data.")
-    emit_run_telemetry(state, :success)
+  defp handle_success(forecast, state) do
+    # 1. Find or create the location in our DB
+    location = get_or_create_location(forecast)
+
+    # 2. Save all forecast points to the DB
+    # TODO: If you eventually poll thousands of locations, you could batch the Ash.bulk_create calls
+    # (e.g., save in groups of 500 using Enum.chunk_every/2) to avoid long-running transactions.
+    if Map.has_key?(forecast, :points) do
+      Enum.each(forecast.points, fn point ->
+        Enum.each(point.metrics, fn metric ->
+          save_observation(metric, point.timestamp, location, state)
+          emit_observation(metric, point.timestamp, forecast.location_name, state)
+        end)
+      end)
+    end
+
+    emit_telemetry(state, :success, %{})
   end
 
-  defp handle_observations(observations, state) do
-    # 1. Ensure location exists (all observations in a poll usually share a location)
-    first = List.first(observations)
+  defp get_or_create_location(forecast) do
+    if is_nil(forecast.location_name) or forecast.location_name == "" do
+      Logger.error("Cannot get/create location: location_name is missing in forecast DTO.")
+      nil
+    else
+      # 1. Use name + coordinates to ensure uniqueness
+      {lat, lon} = forecast.coords || {0.0, 0.0}
 
-    case get_or_create_location(first) do
-      {:ok, location} ->
-        # 2. Enrich observations with location_id and convert to maps for bulk create
-        inputs =
-          Enum.map(observations, fn obs ->
-            emit_observation_telemetry(obs, state)
+      params = %{
+        name: forecast.location_name,
+        latitude: lat,
+        longitude: lon
+      }
 
-            %{
-              location_id: location.id,
-              metric_type: obs.metric_type,
-              value: obs.value,
-              unit: obs.unit,
-              timestamp: obs.timestamp,
-              source: obs.source,
-              metadata: obs.metadata
-            }
-          end)
+      # 2. Use create action with upsert? true
+      case Chronodash.Metrics.Location
+           |> Ash.Changeset.for_create(:create, params)
+           |> Ash.create(domain: Chronodash.Metrics) do
+        {:ok, loc} ->
+          loc
 
-        # 3. Bulk Upsert
-        # TODO: If you eventually poll thousands of locations, you could batch the Ash.bulk_create calls
-        # (e.g., save in groups of 500 using Enum.chunk_every/2) to avoid long-running transactions.
-        case Ash.bulk_create(inputs, Chronodash.Metrics.Observation, :create,
-               domain: Chronodash.Metrics
-             ) do
-          %Ash.BulkResult{status: :success} ->
-            Logger.info(
-              "Polling job #{state.id}: successfully saved #{length(inputs)} observations."
-            )
+        {:error, error} ->
+          Logger.error(
+            "Failed to get/create location '#{forecast.location_name}': #{inspect(error)}"
+          )
 
-            emit_run_telemetry(state, :success)
-
-          %Ash.BulkResult{errors: errors} ->
-            Logger.error(
-              "Polling job #{state.id}: failed to bulk save observations: #{inspect(errors)}"
-            )
-
-            emit_run_telemetry(state, :error)
-        end
-
-      {:error, error} ->
-        Logger.error("Polling job #{state.id}: could not resolve location: #{inspect(error)}")
-        emit_run_telemetry(state, :error)
+          nil
+      end
     end
   end
 
-  defp get_or_create_location(obs) do
-    params = %{
-      name: obs.location_name,
-      latitude: obs.latitude,
-      longitude: obs.longitude
-    }
+  defp save_observation(metric, timestamp, location, state) do
+    if is_nil(location) do
+      Logger.error("Cannot save observation for #{metric.name} because location is nil.")
+    else
+      source = Map.get(state.metadata, :source, "unknown")
 
-    case Chronodash.Metrics.Location
-         |> Ash.Changeset.for_create(:create, params)
-         |> Ash.create(domain: Chronodash.Metrics) do
-      {:ok, loc} -> {:ok, loc}
-      {:error, error} -> {:error, error}
+      params = %{
+        location_id: location.id,
+        metric_type: metric.name,
+        value: normalize_value(metric.value),
+        unit: metric.unit,
+        timestamp: timestamp,
+        source: source,
+        metadata: %{original_value: metric.value}
+      }
+
+      case Chronodash.Metrics.Observation
+           |> Ash.Changeset.for_create(:create, params)
+           |> Ash.create(domain: Chronodash.Metrics) do
+        {:ok, _obs} ->
+          :ok
+
+        {:error, error} ->
+          Logger.error("Failed to upsert observation #{metric.name}: #{inspect(error)}")
+      end
     end
   end
 
-  defp emit_observation_telemetry(obs, state) do
-    measurements = %{value: obs.value}
+  defp emit_observation(metric, timestamp, location_name, state) do
+    # We emit a metric for each data point
+    measurements = %{value: normalize_value(metric.value)}
 
     metadata =
       Map.merge(state.metadata, %{
-        location: obs.location_name,
-        variable: obs.metric_type,
-        timestamp: obs.timestamp
+        location: location_name,
+        variable: metric.name,
+        timestamp: timestamp
       })
 
     :telemetry.execute([:chronodash, :polling, :observation], measurements, metadata)
   end
 
-  defp emit_run_telemetry(state, status) do
-    metadata = Map.merge(state.metadata, %{status: status, job_id: state.id})
+  defp emit_telemetry(state, status, extra_metadata) do
+    metadata = Map.merge(state.metadata, extra_metadata) |> Map.put(:status, status)
     :telemetry.execute([:chronodash, :polling, :run], %{count: 1}, metadata)
   end
+
+  defp normalize_value(v) when is_number(v), do: v * 1.0
+
+  defp normalize_value(v) when is_binary(v) do
+    cond do
+      # Handle numeric strings
+      Regex.match?(~r/^-?\d+(\.\d+)?$/, v) ->
+        {f, _} = Float.parse(v)
+        f
+
+      # Sky States
+      v == "SUNNY" ->
+        1.0
+
+      v == "PARTLY_CLOUDY" ->
+        2.0
+
+      v == "HIGH_CLOUDS" ->
+        3.0
+
+      v == "CLOUDY" ->
+        4.0
+
+      v == "OVERCAST" ->
+        5.0
+
+      true ->
+        0.0
+    end
+  end
+
+  defp normalize_value(_), do: 0.0
 
   defp schedule_next(rate) do
     Process.send_after(self(), :poll, rate)
