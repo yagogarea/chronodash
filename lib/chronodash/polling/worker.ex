@@ -75,6 +75,8 @@ defmodule Chronodash.Polling.Worker do
           end)
 
         # 3. Bulk Upsert
+        # TODO: If you eventually poll thousands of locations, you could batch the Ash.bulk_create calls
+        # (e.g., save in groups of 500 using Enum.chunk_every/2) to avoid long-running transactions.
         case Ash.bulk_create(inputs, Chronodash.Metrics.Observation, :create,
                domain: Chronodash.Metrics
              ) do
