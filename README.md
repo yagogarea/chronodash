@@ -80,12 +80,12 @@ This document lists all dependencies used in Chronodash, their purpose, and rele
 
 ## Core Stack
 
-| Technology                                         | Version    | Purpose                       |
-| -------------------------------------------------- | ---------- | ----------------------------- |
-| [Elixir](https://elixir-lang.org/)                 | `~> 1.15`  | Primary programming language  |
-| [Phoenix Framework](https://phoenixframework.org/) | `~> 1.8.1` | Web framework and API layer   |
-| [PostgreSQL](https://www.postgresql.org/)          | latest     | Primary relational database   |
-| [Docker](https://www.docker.com/)                  | latest     | Local development environment |
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| [Elixir](https://elixir-lang.org/) | `~> 1.15` | Primary programming language |
+| [Phoenix Framework](https://phoenixframework.org/) | `~> 1.8.1` | Web framework and API layer |
+| [PostgreSQL](https://www.postgresql.org/) | latest | Primary relational database |
+| [Docker](https://www.docker.com/) | latest | Local development environment |
 
 ---
 
@@ -93,83 +93,67 @@ This document lists all dependencies used in Chronodash, their purpose, and rele
 
 ### Framework & Web
 
-| Package                                                | Version    | Purpose                                         |
-| ------------------------------------------------------ | ---------- | ----------------------------------------------- |
-| [`phoenix`](https://hex.pm/packages/phoenix)           | `~> 1.8.1` | Web framework — routing, controllers, endpoints |
-| [`bandit`](https://hex.pm/packages/bandit)             | `~> 1.5`   | HTTP server (replaces Cowboy)                   |
-| [`phoenix_ecto`](https://hex.pm/packages/phoenix_ecto) | `~> 4.5`   | Phoenix and Ecto integration                    |
-| [`gettext`](https://hex.pm/packages/gettext)           | `~> 0.26`  | Internationalization and translations           |
+| Package | Version | Purpose | License |
+|---------|---------|---------|---------|
+| [`phoenix`](https://hex.pm/packages/phoenix) | `~> 1.8.1` | Web framework — routing, controllers, endpoints | MIT |
+| [`bandit`](https://hex.pm/packages/bandit) | `~> 1.5` | HTTP server (replaces Cowboy) | MIT |
+| [`phoenix_ecto`](https://hex.pm/packages/phoenix_ecto) | `~> 4.5` | Phoenix and Ecto integration | MIT |
+| [`gettext`](https://hex.pm/packages/gettext) | `~> 0.26` | Internationalization and translations | MIT |
 
 ### Data Layer
 
-| Package                                                | Version    | Purpose                                           |
-| ------------------------------------------------------ | ---------- | ------------------------------------------------- |
-| [`ecto_sql`](https://hex.pm/packages/ecto_sql)         | `~> 3.13`  | SQL query interface for Ecto                      |
-| [`postgrex`](https://hex.pm/packages/postgrex)         | `>= 0.0.0` | PostgreSQL driver for Elixir                      |
-| [`ash`](https://hex.pm/packages/ash)                   | `~> 3.0`   | Resource-based framework for domain modeling      |
-| [`ash_postgres`](https://hex.pm/packages/ash_postgres) | `~> 2.0`   | AshPostgres adapter — manages migrations and repo |
-| [`ash_phoenix`](https://hex.pm/packages/ash_phoenix)   | `~> 2.0`   | Integration between Ash and Phoenix               |
+| Package | Version | Purpose | License |
+|---------|---------|---------|---------|
+| [`ecto_sql`](https://hex.pm/packages/ecto_sql) | `~> 3.13` | SQL query interface for Ecto | Apache 2.0 |
+| [`postgrex`](https://hex.pm/packages/postgrex) | `>= 0.0.0` | PostgreSQL driver for Elixir | Apache 2.0 |
+| [`ash`](https://hex.pm/packages/ash) | `~> 3.0` | Resource-based framework for domain modeling | MIT |
+| [`ash_postgres`](https://hex.pm/packages/ash_postgres) | `~> 2.0` | AshPostgres adapter — manages migrations and repo | MIT |
+| [`ash_phoenix`](https://hex.pm/packages/ash_phoenix) | `~> 2.0` | Integration between Ash and Phoenix | MIT |
 
 ### API & Documentation
 
-| Package                                                  | Version   | Purpose                                                  |
-| -------------------------------------------------------- | --------- | -------------------------------------------------------- |
-| [`open_api_spex`](https://hex.pm/packages/open_api_spex) | `~> 3.16` | OpenAPI 3.0 spec generation and validation               |
-| [`jason`](https://hex.pm/packages/jason)                 | `~> 1.2`  | Fast JSON encoding/decoding                              |
-| [`cors_plug`](https://hex.pm/packages/cors_plug)         | `~> 3.0`  | CORS headers for cross-origin requests from the frontend |
+| Package | Version | Purpose | License |
+|---------|---------|---------|---------|
+| [`open_api_spex`](https://hex.pm/packages/open_api_spex) | `~> 3.16` | OpenAPI 3.0 spec generation and validation | MIT |
+| [`jason`](https://hex.pm/packages/jason) | `~> 1.2` | Fast JSON encoding/decoding | Apache 2.0 |
+| [`cors_plug`](https://hex.pm/packages/cors_plug) | `~> 3.0` | CORS headers for cross-origin requests from the frontend | MIT |
 
 ### HTTP & Networking
 
-| Package                                              | Version    | Purpose                           |
-| ---------------------------------------------------- | ---------- | --------------------------------- |
-| [`req`](https://hex.pm/packages/req)                 | `~> 0.5`   | HTTP client for outgoing requests |
-| [`dns_cluster`](https://hex.pm/packages/dns_cluster) | `~> 0.2.0` | DNS-based node clustering         |
+| Package | Version | Purpose | License |
+|---------|---------|---------|---------|
+| [`req`](https://hex.pm/packages/req) | `~> 0.5` | HTTP client for outgoing requests | Apache 2.0 |
+| [`dns_cluster`](https://hex.pm/packages/dns_cluster) | `~> 0.2.0` | DNS-based node clustering | Apache 2.0 |
 
 ### Observability
 
-| Package                                                                    | Version    | Purpose                                |
-| -------------------------------------------------------------------------- | ---------- | -------------------------------------- |
-| [`telemetry_metrics`](https://hex.pm/packages/telemetry_metrics)           | `~> 1.0`   | Metrics definitions and aggregation    |
-| [`telemetry_poller`](https://hex.pm/packages/telemetry_poller)             | `~> 1.0`   | Periodic VM and application metrics    |
-| [`phoenix_live_dashboard`](https://hex.pm/packages/phoenix_live_dashboard) | `~> 0.8.3` | Real-time metrics dashboard (dev/prod) |
+| Package | Version | Purpose | License |
+|---------|---------|---------|---------|
+| [`telemetry_metrics`](https://hex.pm/packages/telemetry_metrics) | `~> 1.0` | Metrics definitions and aggregation | Apache 2.0 |
+| [`telemetry_poller`](https://hex.pm/packages/telemetry_poller) | `~> 1.0` | Periodic VM and application metrics | Apache 2.0 |
+| [`phoenix_live_dashboard`](https://hex.pm/packages/phoenix_live_dashboard) | `~> 0.8.3` | Real-time metrics dashboard (dev/prod) | MIT |
 
 ### Email
 
-| Package                                    | Version   | Purpose                        |
-| ------------------------------------------ | --------- | ------------------------------ |
-| [`swoosh`](https://hex.pm/packages/swoosh) | `~> 1.16` | Email composition and delivery |
+| Package | Version | Purpose | License |
+|---------|---------|---------|---------|
+| [`swoosh`](https://hex.pm/packages/swoosh) | `~> 1.16` | Email composition and delivery | MIT |
 
 ### Tooling & DX
 
-| Package                                      | Version  | Purpose                                                |
-| -------------------------------------------- | -------- | ------------------------------------------------------ |
-| [`igniter`](https://hex.pm/packages/igniter) | `~> 0.3` | Code generation and project automation                 |
-| [`credo`](https://hex.pm/packages/credo)     | `~> 1.7` | Static code analysis and style enforcement (test only) |
-
----
-
-## Frontend Dependencies
-
-The frontend is a **React + TypeScript** application. Dependencies are managed via `npm`.
-
-| Package      | Purpose                           |
-| ------------ | --------------------------------- |
-| `react`      | UI library                        |
-| `react-dom`  | DOM rendering for React           |
-| `typescript` | Static typing for JavaScript      |
-| `vite`       | Development server and build tool |
-
-> Run `npm install` to install all frontend dependencies.  
-> Full list available in `package.json`.
+| Package | Version | Purpose | License |
+|---------|---------|---------|---------|
+| [`igniter`](https://hex.pm/packages/igniter) | `~> 0.3` | Code generation and project automation | MIT |
+| [`credo`](https://hex.pm/packages/credo) | `~> 1.7` | Static code analysis and style enforcement (test only) | MIT |
 
 ---
 
 ## Development & Infrastructure
 
-| Tool                    | Purpose                                          |
-| ----------------------- | ------------------------------------------------ |
+| Tool | Purpose |
+|------|---------|
 | Docker & Docker Compose | Runs PostgreSQL locally without a manual install |
-| `.env` / `.env.example` | Environment variable management                  |
+| `.env` / `.env.example` | Environment variable management |
 
 ---
 
@@ -189,16 +173,6 @@ mix deps.update --all
 
 # Check for known vulnerabilities
 mix hex.audit
-```
-
-### Frontend
-
-```bash
-# Check for outdated packages
-npm outdated
-
-# Update all packages
-npm update
 ```
 
 ---
