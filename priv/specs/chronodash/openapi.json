@@ -162,33 +162,40 @@
           "id": {
             "type": "string",
             "format": "uuid",
+            "nullable": false,
             "example": "550e8400-e29b-41d4-a716-446655440000"
           },
           "name": {
             "type": "string",
-            "example": "María García"
+            "example": "María García",
+            "nullable": false
           },
           "email": {
             "type": "string",
-            "example": "maria.garcia@example.com"
+            "example": "maria.garcia@example.com",
+            "nullable": false
           },
           "city": {
             "type": "string",
-            "example": "Santiago de Compostela"
+            "example": "Santiago de Compostela",
+            "nullable": true
           },
           "localization": {
-            "$ref": "#/components/schemas/Localization"
+            "$ref": "#/components/schemas/Localization",
+            "nullable": true
           },
           "timezone": {
             "type": "string",
             "default": "Europe/Madrid",
-            "example": "Europe/Madrid"
+            "example": "Europe/Madrid",
+            "nullable": true
           },
           "interests": {
             "type": "array",
             "items": { 
-              "$ref": "#/components/schemas/Interest" 
-          },
+              "$ref": "#/components/schemas/Interest"
+            },
+            "nullable": true,
             "example": ["surf", "running"]
           },
           "notification_channels": {
@@ -197,27 +204,32 @@
               "type": "string",
               "enum": ["discord", "telegram"]
             },
-            "example": ["telegram"]
+            "example": ["telegram"],
+            "nullable": true
           },
           "alert_hours": {
             "type": "string",
             "description": "Time window for notifications e.g. '07:00-22:00'",
-            "example": "07:00-22:00"
+            "example": "07:00-22:00",
+            "nullable": true
           },
           "is_active": {
             "type": "boolean",
             "default": true,
-            "example": true
+            "example": true,
+            "nullable": true
           },
           "inserted_at": {
             "type": "string",
             "format": "date-time",
-            "example": "2024-01-15T08:30:00Z"
+            "example": "2024-01-15T08:30:00Z",
+            "nullable": false
           },
           "updated_at": {
             "type": "string",
             "format": "date-time",
-            "example": "2024-06-20T14:00:00Z"
+            "example": "2024-06-20T14:00:00Z",
+            "nullable": false
           }
         },
         "required": ["id", "name", "email", "inserted_at", "updated_at"]

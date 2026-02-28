@@ -1,12 +1,15 @@
 ## Description
+
 Briefly describe what this Pull Request does.
 
 ## Type of change
+
 - [ ] Bug fix
 - [ ] New feature
 - [ ] Documentation improvement
 
 ## Checklist
+
 - [ ] I have tested the changes
 - [ ] I have added tests if applicable
 - [ ] I have documented the changes

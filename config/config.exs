@@ -7,9 +7,13 @@
 # General application configuration
 import Config
 
+config :spark, formatter: ["Ash.Resource": [section_order: [:postgres]]]
+config :ash, known_types: [AshPostgres.Timestamptz, AshPostgres.TimestamptzUsec]
+
 config :chronodash,
   ecto_repos: [Chronodash.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  ash_domains: [Chronodash.Accounts, Chronodash.Accounts]
 
 # Configures the endpoint
 config :chronodash, ChronodashWeb.Endpoint,
@@ -25,6 +29,13 @@ config :chronodash, ChronodashWeb.Endpoint,
     # paths: ["/health"],
     hosts: ["localhost", "127.0.0.1"]
   ]
+
+config :chronodash, Chronodash.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: :disabled,
+  metrics_server: :disabled
 
 # Configures the mailer
 #
