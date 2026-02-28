@@ -34,20 +34,20 @@ We will acknowledge receipt **within 48 hours** and aim to release a patch **wit
 
 The following areas are actively monitored and considered in scope:
 
-### 🔐 Authentication & Users
+### Authentication & Users
 
 - Unauthorized access to user accounts
 - Password hashing weaknesses
 - Session or token hijacking
 - Brute force vulnerabilities on login endpoints
 
-### 🔑 API Keys & Tokens
+### API Keys & Tokens
 
 - Exposure of API keys or secrets in logs, responses, or source code
 - Insufficient token expiration or revocation
 - Tokens with overly broad permissions
 
-### 🗄️ Database
+### Database
 
 - SQL injection or query manipulation
 - Unauthorized access to user data
