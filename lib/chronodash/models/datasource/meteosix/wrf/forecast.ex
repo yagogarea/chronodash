@@ -49,23 +49,26 @@ defmodule Chronodash.Models.DataSource.MeteoSIX.WRF.Forecast do
   defp extract_coords(_), do: {0.0, 0.0}
 
   defp parse_points(days, metric_type) when is_list(days) do
-    Enum.flat_map(days, fn day ->
-      variable = Enum.find(day["variables"], fn v -> v["name"] == to_string(metric_type) end)
-
-      if variable do
-        Enum.map(variable["values"], fn val ->
-          %{
-            timestamp: parse_timestamp(val["timeInstant"]),
-            metrics: extract_metrics(val, variable, metric_type)
-          }
-        end)
-      else
-        []
-      end
-    end)
+    Enum.flat_map(days, &process_forecast_day(&1, metric_type))
   end
 
   defp parse_points(_, _), do: []
+
+  defp process_forecast_day(day, metric_type) do
+    case Enum.find(day["variables"], fn v -> v["name"] == to_string(metric_type) end) do
+      nil -> []
+      variable -> map_values_to_points(variable, metric_type)
+    end
+  end
+
+  defp map_values_to_points(variable, metric_type) do
+    Enum.map(variable["values"], fn val ->
+      %{
+        timestamp: parse_timestamp(val["timeInstant"]),
+        metrics: extract_metrics(val, variable, metric_type)
+      }
+    end)
+  end
 
   # Special handling for composite variables
   defp extract_metrics(val, variable, :wind) do

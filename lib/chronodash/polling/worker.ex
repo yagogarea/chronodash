@@ -53,16 +53,25 @@ defmodule Chronodash.Polling.Worker do
     # 2. Save all forecast points to the DB
     # TODO: If you eventually poll thousands of locations, you could batch the Ash.bulk_create calls
     # (e.g., save in groups of 500 using Enum.chunk_every/2) to avoid long-running transactions.
-    if Map.has_key?(forecast, :points) do
-      Enum.each(forecast.points, fn point ->
-        Enum.each(point.metrics, fn metric ->
-          save_observation(metric, point.timestamp, location, state)
-          emit_observation(metric, point.timestamp, forecast.location_name, state)
-        end)
-      end)
-    end
+    process_forecast_points(forecast, location, state)
 
     emit_telemetry(state, :success, %{})
+  end
+
+  defp process_forecast_points(%{points: points} = forecast, location, state)
+       when is_list(points) do
+    Enum.each(points, fn point ->
+      process_metrics(point.metrics, point.timestamp, location, forecast.location_name, state)
+    end)
+  end
+
+  defp process_forecast_points(_forecast, _location, _state), do: :ok
+
+  defp process_metrics(metrics, timestamp, location, location_name, state) do
+    Enum.each(metrics, fn metric ->
+      save_observation(metric, timestamp, location, state)
+      emit_observation(metric, timestamp, location_name, state)
+    end)
   end
 
   defp get_or_create_location(forecast) do
