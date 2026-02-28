@@ -1,0 +1,377 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CronoDash API",
+    "version": "0.1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/api/1",
+      "description": "Local API v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Operations related to users"
+    }
+  ],
+  "security": [],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "List all users",
+        "operationId": "listUsers",
+        "tags": ["Users"],
+        "responses": {
+          "200": { 
+            "$ref": "#/components/responses/UserListResponse" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        }
+        }
+      },
+      "post": {
+        "summary": "Create a new user",
+        "operationId": "createUser",
+        "tags": ["Users"],
+        "requestBody": { 
+          "$ref": "#/components/requestBodies/CreateUserRequest" 
+        },
+        "responses": {
+          "201": { 
+            "$ref": "#/components/responses/UserResponse" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        },
+          "422": { 
+            "$ref": "#/components/responses/UnprocessableEntity" 
+        }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get a user by ID",
+        "operationId": "getUser",
+        "tags": ["Users"],
+        "parameters": [
+          { "$ref": "#/components/parameters/UserId" }
+        ],
+        "responses": {
+          "200": { 
+            "$ref": "#/components/responses/UserResponse" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        },
+          "404": { 
+            "$ref": "#/components/responses/NotFound" 
+        }
+        }
+      },
+      "patch": {
+        "summary": "Update a user",
+        "operationId": "updateUser",
+        "tags": ["Users"],
+        "parameters": [
+          { "$ref": "#/components/parameters/UserId" }
+        ],
+        "requestBody": { 
+          "$ref": "#/components/requestBodies/UpdateUserRequest" 
+      },
+        "responses": {
+          "200": { 
+            "$ref": "#/components/responses/UserResponse" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        },
+          "404": { 
+            "$ref": "#/components/responses/NotFound" 
+          },
+          "422": { 
+            "$ref": "#/components/responses/UnprocessableEntity" 
+        }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "operationId": "deleteUser",
+        "tags": ["Users"],
+        "parameters": [
+          { "$ref": "#/components/parameters/UserId" }
+        ],
+        "responses": {
+          "204": { 
+            "$ref": "#/components/responses/NoContent" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        },
+          "404": { 
+            "$ref": "#/components/responses/NotFound" 
+        }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "UserId": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "example": "550e8400-e29b-41d4-a716-446655440000"
+        }
+      }
+    },
+    "schemas": {
+      "Localization": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "float",
+            "example": 42.8782
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float",
+            "example": -8.5448
+          }
+        }
+      },
+      "Interest": {
+        "type": "string",
+        "enum": ["surf", "running", "farming", "skiing"],
+        "example": "surf"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "name": {
+            "type": "string",
+            "example": "María García"
+          },
+          "email": {
+            "type": "string",
+            "example": "maria.garcia@example.com"
+          },
+          "city": {
+            "type": "string",
+            "example": "Santiago de Compostela"
+          },
+          "localization": {
+            "$ref": "#/components/schemas/Localization"
+          },
+          "timezone": {
+            "type": "string",
+            "default": "Europe/Madrid",
+            "example": "Europe/Madrid"
+          },
+          "interests": {
+            "type": "array",
+            "items": { 
+              "$ref": "#/components/schemas/Interest" 
+          },
+            "example": ["surf", "running"]
+          },
+          "notification_channels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["discord", "telegram"]
+            },
+            "example": ["telegram"]
+          },
+          "alert_hours": {
+            "type": "string",
+            "description": "Time window for notifications e.g. '07:00-22:00'",
+            "example": "07:00-22:00"
+          },
+          "is_active": {
+            "type": "boolean",
+            "default": true,
+            "example": true
+          },
+          "inserted_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-15T08:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-06-20T14:00:00Z"
+          }
+        },
+        "required": ["id", "name", "email", "inserted_at", "updated_at"]
+      },
+      "CreateUser": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "María García" },
+          "email": { "type": "string", "example": "maria.garcia@example.com" },
+          "city": { "type": "string", "example": "Santiago de Compostela" },
+          "localization": { 
+            "$ref": "#/components/schemas/Localization" 
+        },
+          "timezone": {
+            "type": "string",
+            "default": "Europe/Madrid",
+            "example": "Europe/Madrid"
+          },
+          "interests": {
+            "type": "array",
+            "items": { 
+              "$ref": "#/components/schemas/Interest" 
+          },
+            "example": ["surf", "running"]
+          },
+          "notification_channels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["discord", "telegram"]
+            },
+            "example": ["telegram"]
+          },
+          "alert_hours": { "type": "string", "example": "07:00-22:00" },
+          "is_active": { "type": "boolean", "default": true, "example": true }
+        },
+        "required": ["name", "email"]
+      },
+      "UpdateUser": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "María García" },
+          "email": { "type": "string", "example": "maria.garcia@example.com" },
+          "city": { "type": "string", "example": "Santiago de Compostela" },
+          "localization": { 
+            "$ref": "#/components/schemas/Localization" 
+        },
+          "timezone": { "type": "string", "example": "Europe/Madrid" },
+          "interests": {
+            "type": "array",
+            "items": { 
+              "$ref": "#/components/schemas/Interest" 
+          },
+            "example": ["farming", "skiing"]
+          },
+          "notification_channels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["discord", "telegram"]
+            },
+            "example": ["discord"]
+          },
+          "alert_hours": { "type": "string", "example": "08:00-21:00" },
+          "is_active": { "type": "boolean", "example": false }
+        },
+        "minProperties": 1
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string", "example": "Resource not found" }
+        }
+      }
+    },
+    "requestBodies": {
+      "CreateUserRequest": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { 
+              "$ref": "#/components/schemas/CreateUser" 
+          }
+          }
+        }
+      },
+      "UpdateUserRequest": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { 
+              "$ref": "#/components/schemas/UpdateUser" 
+          }
+          }
+        }
+      }
+    },
+    "responses": {
+      "UserResponse": {
+        "description": "User",
+        "content": {
+          "application/json": {
+            "schema": { 
+              "$ref": "#/components/schemas/User" 
+          }
+          }
+        }
+      },
+      "UserListResponse": {
+        "description": "List of users",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": { 
+                "$ref": "#/components/schemas/User" 
+            }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": { 
+              "$ref": "#/components/schemas/Error" 
+          }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": { 
+              "$ref": "#/components/schemas/Error" 
+          }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "schema": { 
+              "$ref": "#/components/schemas/Error" 
+            }
+          }
+        }
+      },
+      "NoContent": {
+        "description": "No Content"
+      }
+    }
+  }
+}
