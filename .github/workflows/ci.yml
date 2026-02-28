@@ -80,7 +80,7 @@ jobs:
       - name: Run API fuzzing
         uses: schemathesis/action@v2
         with:
-          schema: "priv/specs/openapi.json"
+          schema: "priv/specs/chronodash/openapi.json"
           base-url: "http://localhost:4000/api/1"
           version: "4.5.4"
           config-file: "schemathesis.toml"
