@@ -33,7 +33,7 @@ defmodule Chronodash.Cache.ProviderTest do
   describe "implementation compliance" do
     test "Cachex provider implements all required functions" do
       functions = [:get, :put, :delete, :clear, :child_spec]
-      arities   = [1, 3, 1, 0, 1]
+      arities = [1, 3, 1, 0, 1]
 
       for {fun, arity} <- Enum.zip(functions, arities) do
         assert function_exported?(CachexProvider, fun, arity),

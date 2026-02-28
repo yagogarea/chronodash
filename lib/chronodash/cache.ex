@@ -9,6 +9,7 @@ defmodule Chronodash.Cache do
   @type opts :: Keyword.t()
 
   def get(key), do: provider().get(key)
+
   @doc "Stores a value in the cache with the given TTL in seconds, or ':infinity' for no expiration."
   def put(key, value, ttl), do: provider().put(key, value, ttl)
   @doc "Stores a value in the cache with no expiration."

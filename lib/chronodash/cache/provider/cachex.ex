@@ -28,8 +28,12 @@ defmodule Chronodash.Cache.Provider.Cachex do
   @spec get(Chronodash.Cache.key()) :: {:ok, Chronodash.Cache.value()} | :miss
   def get(key) do
     case Cachex.get(@cache_name, key) do
-      {:ok, nil} -> :miss
-      {:ok, value} -> {:ok, value}
+      {:ok, nil} ->
+        :miss
+
+      {:ok, value} ->
+        {:ok, value}
+
       {:error, reason} ->
         Logger.warning("Cache get failed for key #{inspect(key)}: #{inspect(reason)}")
         :miss
@@ -42,7 +46,9 @@ defmodule Chronodash.Cache.Provider.Cachex do
     opts = ttl_opts(ttl)
 
     case Cachex.put(@cache_name, key, value, opts) do
-      {:ok, true} -> :ok
+      {:ok, true} ->
+        :ok
+
       {:error, reason} ->
         Logger.warning("Cache put failed for key #{inspect(key)}: #{inspect(reason)}")
         :ok
@@ -53,7 +59,9 @@ defmodule Chronodash.Cache.Provider.Cachex do
   @spec delete(Chronodash.Cache.key()) :: :ok
   def delete(key) do
     case Cachex.del(@cache_name, key) do
-      {:ok, _} -> :ok
+      {:ok, _} ->
+        :ok
+
       {:error, reason} ->
         Logger.warning("Cache delete failed for key #{inspect(key)}: #{inspect(reason)}")
         :ok
@@ -64,7 +72,9 @@ defmodule Chronodash.Cache.Provider.Cachex do
   @spec clear() :: :ok
   def clear do
     case Cachex.clear(@cache_name) do
-      {:ok, _} -> :ok
+      {:ok, _} ->
+        :ok
+
       {:error, reason} ->
         Logger.warning("Cache clear failed: #{inspect(reason)}")
         :ok
