@@ -153,10 +153,26 @@
             {
               "options": {
                 "1": { "color": "yellow", "text": "SUNNY" },
-                "2": { "color": "light-blue", "text": "PARTLY_CLOUDY" },
-                "3": { "color": "blue", "text": "HIGH_CLOUDS" },
+                "2": { "color": "light-blue", "text": "HIGH_CLOUDS" },
+                "3": { "color": "light-blue", "text": "PARTLY_CLOUDY" },
                 "4": { "color": "grey", "text": "CLOUDY" },
-                "5": { "color": "dark-grey", "text": "OVERCAST" }
+                "5": { "color": "dark-grey", "text": "OVERCAST" },
+                "6": { "color": "orange", "text": "FOG" },
+                "7": { "color": "blue", "text": "SHOWERS" },
+                "8": { "color": "blue", "text": "OVERCAST_AND_SHOWERS" },
+                "9": { "color": "light-grey", "text": "INTERMITENT_SNOW" },
+                "10": { "color": "light-blue", "text": "DRIZZLE" },
+                "11": { "color": "blue", "text": "RAIN" },
+                "12": { "color": "white", "text": "SNOW" },
+                "13": { "color": "red", "text": "STORMS" },
+                "14": { "color": "orange", "text": "MIST" },
+                "15": { "color": "orange", "text": "FOG_BANK" },
+                "16": { "color": "light-blue", "text": "MID_CLOUDS" },
+                "17": { "color": "light-blue", "text": "WEAK_RAIN" },
+                "18": { "color": "light-blue", "text": "WEAK_SHOWERS" },
+                "19": { "color": "red", "text": "STORM_THEN_CLOUDY" },
+                "20": { "color": "white", "text": "MELTED_SNOW" },
+                "21": { "color": "purple", "text": "RAIN_HAIL" }
               },
               "type": "value"
             }
