@@ -4,7 +4,8 @@
 ### VARIABLES
 ###-----------------------------------------------------------------------------
 COMPOSE_FILE := docker/docker-compose.yml
-as ?= dev 
+as ?= dev
+with ?= []
 
 APP_NAME := chronodash
 CONTAINER_NAME := chronodash
@@ -41,6 +42,16 @@ credo:
 test-unit:
 	mix test
 
+test-contract: undeploy
+	@$(MAKE) deploy as=dev
+	@echo "Running OpenAPI contract tests with Schemathesis..."
+	@docker run --rm --network host \
+		-v "$(shell pwd)/priv/specs/chronodash:/specs" \
+		-v "$(shell pwd)/schemathesis.toml:/schemathesis.toml" \
+		schemathesis/schemathesis:stable \
+		run /specs/openapi.json --url http://localhost:4000/api/1
+	@$(MAKE) undeploy
+
 ###-----------------------------------------------------------------------------
 ### DEPLOYMENT TARGETS
 ###-----------------------------------------------------------------------------
@@ -66,6 +77,18 @@ undeploy:
 	docker compose -f $(COMPOSE_FILE) down -v --remove-orphans
 
 redeploy: undeploy deploy
+
+deploy_with_tel: deploy
+	@echo "Deploying extra service tel..."
+	docker compose -f docker/docker-compose.tel.yml up -d --build --wait
+	@echo "All requested services deployed for $(as)"
+
+undeploy_with_tel: undeploy
+	@echo "Undeploying extra service tel..."
+	docker compose -f docker/docker-compose.tel.yml down -v --remove-orphans
+	@echo "All requested services undeployed for $(as)"
+
+redeploy_with_tel: undeploy_with_tel deploy_with_tel
 
 logs:
 	@docker logs $(CONTAINER_NAME)

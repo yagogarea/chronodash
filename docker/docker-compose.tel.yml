@@ -1,0 +1,31 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ../etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - cronodash
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - "../etc/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml"
+      - "../etc/grafana/dashboard_provider.yml:/etc/grafana/provisioning/dashboards/main.yaml"
+      - "../etc/grafana/dashboards:/var/lib/grafana/dashboards"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - cronodash
+
+networks:
+  cronodash:
+    external: true
+    name: ash-postgres-network

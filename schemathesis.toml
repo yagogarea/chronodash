@@ -1,0 +1,12 @@
+base-url = "http://localhost:4000/api/1"
+
+[parameters]
+user_id = "00000000-0000-0000-0000-000000000001"
+
+[checks]
+unsupported_method = { enabled = false }
+positive_data_acceptance = { enabled = false }
+negative_data_rejection = { enabled = false }
+
+[generation]
+mode = "positive"
