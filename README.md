@@ -116,7 +116,6 @@ This document lists all dependencies used in Chronodash, their purpose, and rele
 |---------|---------|---------|---------|
 | [`open_api_spex`](https://hex.pm/packages/open_api_spex) | `~> 3.16` | OpenAPI 3.0 spec generation and validation | MIT |
 | [`jason`](https://hex.pm/packages/jason) | `~> 1.2` | Fast JSON encoding/decoding | Apache 2.0 |
-| [`cors_plug`](https://hex.pm/packages/cors_plug) | `~> 3.0` | CORS headers for cross-origin requests from the frontend | MIT |
 
 ### HTTP & Networking
 
@@ -181,4 +180,3 @@ mix hex.audit
 
 - **Ash Framework**: This project uses Ash (`~> 3.0`) as the primary domain layer. Migrations are managed by `AshPostgres` rather than plain Ecto — always use `mix ash_postgres.generate_migrations` when changing resources.
 - **Bandit vs Cowboy**: This project uses `bandit` as the HTTP server. Do not add `plug_cowboy` as a dependency.
-- **CORS**: Cross-origin requests from the React frontend (`localhost:5173`) are handled by `cors_plug` in the `:api` pipeline.
