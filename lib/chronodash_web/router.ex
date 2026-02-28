@@ -13,6 +13,10 @@ defmodule ChronodashWeb.Router do
     pipe_through :api
 
     get "/health", HealthController, :show
+
+    scope "/1" do
+      resources "/users", UserController
+    end
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
