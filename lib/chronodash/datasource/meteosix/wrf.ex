@@ -2,8 +2,8 @@ defmodule Chronodash.DataSource.MeteoSIX.WRF do
   @moduledoc """
   High-level service for fetching WRF Forecast from MeteoSIX.
   """
-  alias Chronodash.Models.DataSource.MeteoSIX.WRF.Forecast
   alias MeteoSIX.WRF
+  alias Chronodash.Models.DataSource.MeteoSIX.Forecast
 
   @doc """
   Fetches forecast from MeteoSIX and parses it into a DTO.

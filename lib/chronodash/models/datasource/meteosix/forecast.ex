@@ -1,7 +1,6 @@
-defmodule Chronodash.Models.DataSource.MeteoSIX.WRF.Forecast do
+defmodule Chronodash.Models.DataSource.MeteoSIX.Forecast do
   @moduledoc """
-  DTO for MeteoSIX WRF Forecast data.
-  Handles both simple and composite metrics (like wind).
+  DTO for MeteoSIX WRF and USWAN Forecast data.
   """
   defstruct [
     :location_name,
