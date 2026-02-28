@@ -89,6 +89,34 @@
         "y": 0
       },
       "id": 2,
+      "alert": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [5],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": ["A", "5m", "now"]
+            },
+            "reducer": {
+              "params": [],
+              "type": "max"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "name": "High Precipitation Alert",
+        "noDataState": "no_data",
+        "notifications": []
+      },
       "options": {
         "legend": {
           "displayMode": "list",

@@ -111,6 +111,11 @@ config :chronodash, :polling_jobs, [
   }
 ]
 
+# Alerts configuration
+config :chronodash, :alerts,
+  rules: [],
+  channels: %{}
+
 # Finch configuration
 config :chronodash, :http_client, Chronodash.HttpClient.Finch
 

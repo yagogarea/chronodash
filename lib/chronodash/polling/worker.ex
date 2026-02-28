@@ -47,10 +47,13 @@ defmodule Chronodash.Polling.Worker do
   end
 
   defp handle_success(forecast, state) do
-    # 1. Find or create the location in our DB
+    # 1. Emit full forecast event for alerting (window rules)
+    emit_forecast_telemetry(forecast, state)
+
+    # 2. Find or create the location in our DB
     location = get_or_create_location(forecast)
 
-    # 2. Save all forecast points to the DB
+    # 3. Save all forecast points to the DB
     # TODO: If you eventually poll thousands of locations, you could batch the Ash.bulk_create calls
     # (e.g., save in groups of 500 using Enum.chunk_every/2) to avoid long-running transactions.
     process_forecast_points(forecast, location, state)
@@ -131,6 +134,17 @@ defmodule Chronodash.Polling.Worker do
           Logger.error("Failed to upsert observation #{metric.name}: #{inspect(error)}")
       end
     end
+  end
+
+  defp emit_forecast_telemetry(forecast, state) do
+    metadata =
+      Map.merge(state.metadata, %{
+        location: forecast.location_name,
+        variable: forecast.metric_type,
+        points: forecast.points
+      })
+
+    :telemetry.execute([:chronodash, :polling, :forecast_received], %{count: 1}, metadata)
   end
 
   defp emit_observation(metric, timestamp, location_name, state) do

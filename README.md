@@ -4,7 +4,6 @@
 
 Chronodash is a multi-datasource monitoring and monitoring application built with **Elixir**, **Phoenix**, and the **Ash Framework**. It is designed to collect time-series metrics from various providers (starting with MeteoSIX) and visualize them in **Grafana** using **TimescaleDB**.
 
----
 
 ## Key Architecture Concepts
 

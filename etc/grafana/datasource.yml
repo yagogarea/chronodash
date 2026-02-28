@@ -9,6 +9,7 @@ datasources:
     editable: true
 
   - name: PostgreSQL
+    uid: postgres_db
     type: postgres
     access: proxy
     url: postgres:5432
