@@ -50,3 +50,41 @@ jobs:
 
       - name: Credo
         run: mix credo --strict
+
+  contract_tests:
+    name: contract tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install make
+        run: sudo apt-get update && sudo apt-get install -y make
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+
+      - name: Start services
+        run: |
+          cp .env.example .env
+          sed -i "s/your_database_password_here/postgres/" .env
+          DB_PASSWORD=postgres make deploy as=dev
+
+      - name: Wait for Healthcheck
+        run: |
+          timeout 120s bash -c 'until curl -s http://localhost:4000/api/health; do sleep 5; done'
+
+      - name: Run API fuzzing
+        uses: schemathesis/action@v2
+        with:
+          schema: "priv/specs/chronodash/openapi.json"
+          base-url: "http://localhost:4000/api/1"
+          version: "4.5.4"
+          config-file: "schemathesis.toml"
+
+      - name: Stop services
+        if: always()
+        run: make undeploy

@@ -64,3 +64,16 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+# HTTP client configuration overrides for development
+config :chronodash, :default_http_client_config,
+  name: Chronodash.Finch,
+  pools: %{
+    default: [
+      conn_opts: [
+        transport_opts: [
+          verify: :verify_none
+        ]
+      ]
+    ]
+  }

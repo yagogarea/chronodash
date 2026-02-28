@@ -8,6 +8,7 @@ defmodule Chronodash.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      Chronodash.PromEx,
       ChronodashWeb.Telemetry,
       Chronodash.Repo,
       {DNSCluster, query: Application.get_env(:chronodash, :dns_cluster_query) || :ignore},
@@ -15,8 +16,12 @@ defmodule Chronodash.Application do
       # Start a worker by calling: Chronodash.Worker.start_link(arg)
       # {Chronodash.Worker, arg},
       # Start to serve requests, typically the last entry
-      ChronodashWeb.Endpoint
+      ChronodashWeb.Endpoint,
+      {Finch,
+       Application.get_env(:chronodash, :default_http_client_config, name: Chronodash.Finch)}
     ]
+
+    Chronodash.Release.create_and_migrate()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

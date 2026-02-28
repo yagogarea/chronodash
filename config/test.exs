@@ -39,3 +39,6 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Add mock HTTP client for testing
+config :chronodash, :http_client, Chronodash.HttpClient.Mock

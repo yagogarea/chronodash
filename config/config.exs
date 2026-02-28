@@ -7,9 +7,13 @@
 # General application configuration
 import Config
 
+config :spark, formatter: ["Ash.Resource": [section_order: [:postgres]]]
+config :ash, known_types: [AshPostgres.Timestamptz, AshPostgres.TimestamptzUsec]
+
 config :chronodash,
   ecto_repos: [Chronodash.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  ash_domains: [Chronodash.Accounts, Chronodash.Metrics]
 
 # Configures the endpoint
 config :chronodash, ChronodashWeb.Endpoint,
@@ -25,6 +29,13 @@ config :chronodash, ChronodashWeb.Endpoint,
     # paths: ["/health"],
     hosts: ["localhost", "127.0.0.1"]
   ]
+
+config :chronodash, Chronodash.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  grafana: :disabled,
+  metrics_server: :disabled
 
 # Configures the mailer
 #
@@ -42,6 +53,21 @@ config :logger, :default_formatter,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# Finch configuration
+config :chronodash, :http_client, Chronodash.HttpClient.Finch
+
+config :chronodash, :default_http_client_config,
+  name: Chronodash.Finch,
+  pools: %{
+    default: [
+      conn_opts: [
+        transport_opts: [
+          verify: :verify_peer
+        ]
+      ]
+    ]
+  }
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

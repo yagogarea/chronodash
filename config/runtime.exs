@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :chronodash, ChronodashWeb.Endpoint, server: true
 end
 
+config :chronodash, :meteosix,
+  api_key: System.get_env("METEOSIX_API_KEY") || "KEY",
+  base_url: "https://servizos.meteogalicia.gal/apiv5"
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
