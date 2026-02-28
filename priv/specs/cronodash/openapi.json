@@ -28,31 +28,31 @@
         "operationId": "listUsers",
         "tags": ["Users"],
         "responses": {
-          "200": {
-            "$ref": "#/components/responses/UserListResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          }
+          "200": { 
+            "$ref": "#/components/responses/UserListResponse" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        }
         }
       },
       "post": {
         "summary": "Create a new user",
         "operationId": "createUser",
         "tags": ["Users"],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/CreateUserRequest"
+        "requestBody": { 
+          "$ref": "#/components/requestBodies/CreateUserRequest" 
         },
         "responses": {
-          "201": {
-            "$ref": "#/components/responses/UserResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "422": {
-            "$ref": "#/components/responses/UnprocessableEntity"
-          }
+          "201": { 
+            "$ref": "#/components/responses/UserResponse" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        },
+          "422": { 
+            "$ref": "#/components/responses/UnprocessableEntity" 
+        }
         }
       }
     },
@@ -65,15 +65,15 @@
           { "$ref": "#/components/parameters/UserId" }
         ],
         "responses": {
-          "200": {
-            "$ref": "#/components/responses/UserResponse"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
+          "200": { 
+            "$ref": "#/components/responses/UserResponse" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        },
+          "404": { 
+            "$ref": "#/components/responses/NotFound" 
+        }
         }
       },
       "patch": {
@@ -83,22 +83,22 @@
         "parameters": [
           { "$ref": "#/components/parameters/UserId" }
         ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/UpdateUserRequest"
-        },
+        "requestBody": { 
+          "$ref": "#/components/requestBodies/UpdateUserRequest" 
+      },
         "responses": {
-          "200": {
-            "$ref": "#/components/responses/UserResponse"
+          "200": { 
+            "$ref": "#/components/responses/UserResponse" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        },
+          "404": { 
+            "$ref": "#/components/responses/NotFound" 
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "422": {
-            "$ref": "#/components/responses/UnprocessableEntity"
-          }
+          "422": { 
+            "$ref": "#/components/responses/UnprocessableEntity" 
+        }
         }
       },
       "delete": {
@@ -109,15 +109,15 @@
           { "$ref": "#/components/parameters/UserId" }
         ],
         "responses": {
-          "204": {
-            "$ref": "#/components/responses/NoContent"
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
+          "204": { 
+            "$ref": "#/components/responses/NoContent" 
+        },
+          "400": { 
+            "$ref": "#/components/responses/BadRequest" 
+        },
+          "404": { 
+            "$ref": "#/components/responses/NotFound" 
+        }
         }
       }
     }
@@ -130,7 +130,8 @@
         "required": true,
         "schema": {
           "type": "string",
-          "format": "uuid"
+          "format": "uuid",
+          "example": "550e8400-e29b-41d4-a716-446655440000"
         }
       }
     },
@@ -140,69 +141,83 @@
         "properties": {
           "latitude": {
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "example": 42.8782
           },
           "longitude": {
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "example": -8.5448
           }
         }
       },
       "Interest": {
         "type": "string",
-        "enum": ["surf", "running", "farming", "skiing"]
+        "enum": ["surf", "running", "farming", "skiing"],
+        "example": "surf"
       },
       "User": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "María García"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "maria.garcia@example.com"
           },
           "city": {
-            "type": "string"
+            "type": "string",
+            "example": "Santiago de Compostela"
           },
           "localization": {
             "$ref": "#/components/schemas/Localization"
           },
           "timezone": {
             "type": "string",
-            "default": "Europe/Madrid"
+            "default": "Europe/Madrid",
+            "example": "Europe/Madrid"
           },
           "interests": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Interest"
-            }
+            "items": { 
+              "$ref": "#/components/schemas/Interest" 
+          },
+            "example": ["surf", "running"]
           },
           "notification_channels": {
             "type": "array",
             "items": {
               "type": "string",
               "enum": ["discord", "telegram"]
-            }
+            },
+            "example": ["telegram"]
           },
           "alert_hours": {
             "type": "string",
-            "description": "Time window for notifications e.g. '07:00-22:00'"
+            "description": "Time window for notifications e.g. '07:00-22:00'",
+            "example": "07:00-22:00"
           },
           "is_active": {
             "type": "boolean",
-            "default": true
+            "default": true,
+            "example": true
           },
           "inserted_at": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2024-01-15T08:30:00Z"
           },
           "updated_at": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2024-06-20T14:00:00Z"
           }
         },
         "required": ["id", "name", "email", "inserted_at", "updated_at"]
@@ -210,71 +225,71 @@
       "CreateUser": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "email": { "type": "string" },
-          "city": { "type": "string" },
-          "localization": {
-            "$ref": "#/components/schemas/Localization"
-          },
+          "name": { "type": "string", "example": "María García" },
+          "email": { "type": "string", "example": "maria.garcia@example.com" },
+          "city": { "type": "string", "example": "Santiago de Compostela" },
+          "localization": { 
+            "$ref": "#/components/schemas/Localization" 
+        },
           "timezone": {
             "type": "string",
-            "default": "Europe/Madrid"
+            "default": "Europe/Madrid",
+            "example": "Europe/Madrid"
           },
           "interests": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Interest"
-            }
+            "items": { 
+              "$ref": "#/components/schemas/Interest" 
+          },
+            "example": ["surf", "running"]
           },
           "notification_channels": {
             "type": "array",
             "items": {
               "type": "string",
               "enum": ["discord", "telegram"]
-            }
+            },
+            "example": ["telegram"]
           },
-          "alert_hours": {
-            "type": "string"
-          },
-          "is_active": {
-            "type": "boolean",
-            "default": true
-          }
+          "alert_hours": { "type": "string", "example": "07:00-22:00" },
+          "is_active": { "type": "boolean", "default": true, "example": true }
         },
         "required": ["name", "email"]
       },
       "UpdateUser": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "email": { "type": "string" },
-          "city": { "type": "string" },
-          "localization": {
-            "$ref": "#/components/schemas/Localization"
-          },
-          "timezone": { "type": "string" },
+          "name": { "type": "string", "example": "María García" },
+          "email": { "type": "string", "example": "maria.garcia@example.com" },
+          "city": { "type": "string", "example": "Santiago de Compostela" },
+          "localization": { 
+            "$ref": "#/components/schemas/Localization" 
+        },
+          "timezone": { "type": "string", "example": "Europe/Madrid" },
           "interests": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Interest"
-            }
+            "items": { 
+              "$ref": "#/components/schemas/Interest" 
+          },
+            "example": ["farming", "skiing"]
           },
           "notification_channels": {
             "type": "array",
             "items": {
               "type": "string",
               "enum": ["discord", "telegram"]
-            }
+            },
+            "example": ["discord"]
           },
-          "alert_hours": { "type": "string" },
-          "is_active": { "type": "boolean" }
+          "alert_hours": { "type": "string", "example": "08:00-21:00" },
+          "is_active": { "type": "boolean", "example": false }
         },
         "minProperties": 1
       },
       "Error": {
         "type": "object",
         "properties": {
-          "error": { "type": "string" }
+          "error": { "type": "string", "example": "Resource not found" }
         }
       }
     },
@@ -283,9 +298,9 @@
         "required": true,
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/CreateUser"
-            }
+            "schema": { 
+              "$ref": "#/components/schemas/CreateUser" 
+          }
           }
         }
       },
@@ -293,9 +308,9 @@
         "required": true,
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/UpdateUser"
-            }
+            "schema": { 
+              "$ref": "#/components/schemas/UpdateUser" 
+          }
           }
         }
       }
@@ -305,9 +320,9 @@
         "description": "User",
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/User"
-            }
+            "schema": { 
+              "$ref": "#/components/schemas/User" 
+          }
           }
         }
       },
@@ -317,9 +332,9 @@
           "application/json": {
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/User"
-              }
+              "items": { 
+                "$ref": "#/components/schemas/User" 
+            }
             }
           }
         }
@@ -328,9 +343,9 @@
         "description": "Bad Request",
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
+            "schema": { 
+              "$ref": "#/components/schemas/Error" 
+          }
           }
         }
       },
@@ -338,9 +353,9 @@
         "description": "Not Found",
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
+            "schema": { 
+              "$ref": "#/components/schemas/Error" 
+          }
           }
         }
       },
@@ -348,8 +363,8 @@
         "description": "Unprocessable Entity",
         "content": {
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
+            "schema": { 
+              "$ref": "#/components/schemas/Error" 
             }
           }
         }
