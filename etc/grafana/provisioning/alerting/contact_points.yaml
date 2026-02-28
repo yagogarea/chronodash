@@ -7,4 +7,4 @@ contactPoints:
       - uid: discord_alert
         type: discord
         settings:
-          url: https://discord.com/api/webhooks/1477276961423491164/gcEFNjDjVcVIHQmq3aRbeP2sqcACmlk7m81SYDWRwxwrGGYJXBGqxOtWRYQhRxA8MRyx
+          url: ${DISCORD_WEBHOOK_URL}
