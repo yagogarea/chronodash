@@ -1,5 +1,11 @@
 import Config
 
+if config_env() != :test do
+  config :chronodash, Chronodash.Repo,
+    password:
+      System.get_env("DB_PASSWORD") || raise("DB_PASSWORD environment variable is not set")
+end
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration

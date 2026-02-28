@@ -61,7 +61,8 @@ defmodule Chronodash.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      {:igniter, "~> 0.3"}
+      {:igniter, "~> 0.3"},
+      {:cachex, "~> 3.6"}
     ]
   end
 
