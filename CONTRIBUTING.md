@@ -26,8 +26,6 @@ Make sure you have the following installed:
 
 - **Elixir** `~> 1.15`
 - **PostgreSQL** (or use the included Docker setup)
-- **Node.js** `>= 18` (for the frontend)
-
 ### Steps
 
 1. **Clone the repository**
@@ -67,13 +65,6 @@ Make sure you have the following installed:
    ```bash
    mix phx.server
    # API available at http://localhost:4000
-   ```
-
-7. **Start the frontend**
-   ```bash
-   npm install
-   npm run dev
-   # App available at http://localhost:5173
    ```
 
 ---
