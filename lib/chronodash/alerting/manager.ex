@@ -45,7 +45,10 @@ defmodule Chronodash.Alerting.Manager do
   end
 
   @impl true
-  def handle_cast({:evaluate, [:chronodash, :polling, :observation], %{value: value}, metadata}, state) do
+  def handle_cast(
+        {:evaluate, [:chronodash, :polling, :observation], %{value: value}, metadata},
+        state
+      ) do
     get_instant_rules()
     |> Enum.each(&process_instant_rule(&1, value, metadata))
 
@@ -53,7 +56,10 @@ defmodule Chronodash.Alerting.Manager do
   end
 
   @impl true
-  def handle_cast({:evaluate, [:chronodash, :polling, :forecast_received], _measurements, metadata}, state) do
+  def handle_cast(
+        {:evaluate, [:chronodash, :polling, :forecast_received], _measurements, metadata},
+        state
+      ) do
     get_window_rules()
     |> Enum.each(&process_window_rule(&1, metadata))
 
@@ -99,26 +105,31 @@ defmodule Chronodash.Alerting.Manager do
 
   defp metric_name_match?(m_name, rule_metric) do
     to_string(m_name) == to_string(rule_metric) or
-    (to_string(rule_metric) == "wind" and m_name == "wind_module")
+      (to_string(rule_metric) == "wind" and m_name == "wind_module")
   end
 
   defp check_forecast_condition([], _cond, _thresh), do: {false, nil}
+
   defp check_forecast_condition(values, :max_gt, thresh) do
     max = Enum.max(values)
     {max > thresh, max}
   end
+
   defp check_forecast_condition(values, :max_lt, thresh) do
     max = Enum.max(values)
     {max < thresh, max}
   end
+
   defp check_forecast_condition(values, :min_lt, thresh) do
     min = Enum.min(values)
     {min < thresh, min}
   end
+
   defp check_forecast_condition(values, :gt_any, thresh) do
     val = Enum.find(values, &(&1 > thresh))
     {!is_nil(val), val}
   end
+
   defp check_forecast_condition(_, _, _), do: {false, nil}
 
   # ============================================================================
@@ -130,7 +141,7 @@ defmodule Chronodash.Alerting.Manager do
     now = System.system_time(:millisecond)
 
     case :ets.lookup(@table_name, {rule.id, location}) do
-      [{{_id, _loc}, last_triggered_at}] -> (now - last_triggered_at) < cooldown_ms
+      [{{_id, _loc}, last_triggered_at}] -> now - last_triggered_at < cooldown_ms
       [] -> false
     end
   end
@@ -148,12 +159,14 @@ defmodule Chronodash.Alerting.Manager do
   end
 
   defp normalize_raw_value(v) when is_number(v), do: v * 1.0
+
   defp normalize_raw_value(v) when is_binary(v) do
     case Float.parse(v) do
       {f, _} -> f
       _ -> 0.0
     end
   end
+
   defp normalize_raw_value(_), do: 0.0
 
   defp evaluate_condition(:gt, val, thresh), do: val > thresh
