@@ -10,6 +10,7 @@ defmodule Chronodash.Application do
     children = [
       Chronodash.PromEx,
       ChronodashWeb.Telemetry,
+      {Registry, keys: :unique, name: Chronodash.Registry},
       Chronodash.Repo,
       {DNSCluster, query: Application.get_env(:chronodash, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Chronodash.PubSub},
@@ -17,8 +18,10 @@ defmodule Chronodash.Application do
       # {Chronodash.Worker, arg},
       # Start to serve requests, typically the last entry
       ChronodashWeb.Endpoint,
-      {Finch,
-       Application.get_env(:chronodash, :default_http_client_config, name: Chronodash.Finch)}
+      {Finch, name: Chronodash.Finch},
+      # Polling Services
+      Chronodash.Polling.Supervisor,
+      Chronodash.Polling.Scheduler
     ]
 
     Chronodash.Release.create_and_migrate()
