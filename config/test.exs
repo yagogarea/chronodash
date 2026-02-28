@@ -5,11 +5,6 @@ import Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-if config_env() != :test do
-  config :chronodash, Chronodash.Repo,
-    password:
-      System.get_env("DB_PASSWORD") || raise("DB_PASSWORD environment variable is not set")
-end
 
 config :chronodash, Chronodash.Repo,
   username: "postgres",
@@ -19,7 +14,7 @@ config :chronodash, Chronodash.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
-config :ash, disable_async?: true
+config :ash, :disable_async?, true
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.

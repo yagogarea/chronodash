@@ -4,6 +4,11 @@ defmodule Chronodash.CacheTest do
   alias Chronodash.Cache
 
   setup do
+    # Kill any existing cache process to ensure a clean slate for each test
+    if Process.whereis(Cache) do
+      GenServer.stop(Cache)
+    end
+
     start_supervised!({Cachex, :chronodash_cache})
     :ok
   end
