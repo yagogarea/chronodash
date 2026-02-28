@@ -42,8 +42,8 @@ defmodule Chronodash.Models.DataSource.MeteoSIX.Forecast do
         name = feature["properties"]["name"] || default_name(coords)
 
         %__MODULE__{
-          location_name: name,
-          coords: coords,
+          location_name: feature["properties"]["name"],
+          coords: extract_coords(feature["geometry"]),
           metric_type: metric_type,
           points: parse_points(feature["properties"]["days"], metric_type)
 =======
@@ -65,27 +65,23 @@ defmodule Chronodash.Models.DataSource.MeteoSIX.Forecast do
   defp default_name(_), do: "Unknown Location"
 
   defp extract_coords(%{"coordinates" => [lon, lat]}), do: {lat, lon}
-  defp extract_coords(_), do: {0.0, 0.0}
+  defp extract_coords(_), do: nil
 
-  defp parse_points(days, metric_type) when is_list(days) do
-    Enum.flat_map(days, &process_forecast_day(&1, metric_type))
-  end
+  defp parse_values(days, metric_type) when is_list(days) do
+    Enum.flat_map(days, fn day ->
+      # Find the variable in this day
+      variable = Enum.find(day["variables"], fn v -> v["name"] == to_string(metric_type) end)
 
-  defp parse_points(_, _), do: []
-
-  defp process_forecast_day(day, metric_type) do
-    case Enum.find(day["variables"], fn v -> v["name"] == to_string(metric_type) end) do
-      nil -> []
-      variable -> map_values_to_points(variable, metric_type)
-    end
-  end
-
-  defp map_values_to_points(variable, metric_type) do
-    Enum.map(variable["values"], fn val ->
-      %{
-        timestamp: parse_timestamp(val["timeInstant"]),
-        metrics: extract_metrics(val, variable, metric_type)
-      }
+      if variable do
+        Enum.map(variable["values"], fn val ->
+          %{
+            timestamp: parse_timestamp(val["timeInstant"]),
+            value: val["value"]
+          }
+        end)
+      else
+        []
+      end
     end)
   end
 
