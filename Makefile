@@ -5,7 +5,6 @@
 ###-----------------------------------------------------------------------------
 COMPOSE_FILE := docker/docker-compose.yml
 as ?= dev
-with ?= []
 
 APP_NAME := chronodash
 CONTAINER_NAME := chronodash
