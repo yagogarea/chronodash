@@ -27,3 +27,6 @@ chronodash-*.tar
 
 # Env files
 .env
+
+# VsCode files
+.vscode/
