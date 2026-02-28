@@ -1,0 +1,10 @@
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: Discord
+    receivers:
+      - uid: discord_alert
+        type: discord
+        settings:
+          url: ${DISCORD_WEBHOOK_URL}

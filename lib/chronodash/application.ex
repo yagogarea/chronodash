@@ -21,7 +21,9 @@ defmodule Chronodash.Application do
       {Finch, name: Chronodash.Finch},
       # Polling Services
       Chronodash.Polling.Supervisor,
-      Chronodash.Polling.Scheduler
+      Chronodash.Polling.Scheduler,
+      # Alerting Services
+      Chronodash.Alerting.Manager
     ]
 
     Chronodash.Release.create_and_migrate()
@@ -29,7 +31,14 @@ defmodule Chronodash.Application do
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Chronodash.Supervisor]
-    Supervisor.start_link(children, opts)
+
+    case Supervisor.start_link(children, opts) do
+      {:ok, pid} ->
+        {:ok, pid}
+
+      error ->
+        error
+    end
   end
 
   # Tell Phoenix to update the endpoint configuration
