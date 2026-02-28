@@ -4,7 +4,7 @@ defmodule MeteoSIX.WRF do
   """
   alias MeteoSIX
 
-  @type vars ::
+  @type variable ::
           :sky_state
           | :temperature
           | :precipitation_amount

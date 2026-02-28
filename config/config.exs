@@ -54,6 +54,63 @@ config :logger, :default_formatter,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Polling configuration
+config :chronodash, :polling_jobs, [
+  %{
+    id: :meteosix_wrf_sky_state,
+    mfa: {Chronodash.DataSource.MeteoSIX.WRF, :get_forecast, [{43.37, -8.42}, :sky_state]},
+    rate: :timer.hours(6),
+    metadata: %{source: "meteosix"}
+  },
+  %{
+    id: :meteosix_wrf_temperature,
+    mfa: {Chronodash.DataSource.MeteoSIX.WRF, :get_forecast, [{43.37, -8.42}, :temperature]},
+    rate: :timer.hours(6),
+    metadata: %{source: "meteosix"}
+  },
+  %{
+    id: :meteosix_wrf_precipitation,
+    mfa:
+      {Chronodash.DataSource.MeteoSIX.WRF, :get_forecast, [{43.37, -8.42}, :precipitation_amount]},
+    rate: :timer.hours(6),
+    metadata: %{source: "meteosix"}
+  },
+  %{
+    id: :meteosix_wrf_wind,
+    mfa: {Chronodash.DataSource.MeteoSIX.WRF, :get_forecast, [{43.37, -8.42}, :wind]},
+    rate: :timer.hours(6),
+    metadata: %{source: "meteosix"}
+  },
+  %{
+    id: :meteosix_wrf_humidity,
+    mfa:
+      {Chronodash.DataSource.MeteoSIX.WRF, :get_forecast, [{43.37, -8.42}, :relative_humidity]},
+    rate: :timer.hours(6),
+    metadata: %{source: "meteosix"}
+  },
+  %{
+    id: :meteosix_wrf_clouds,
+    mfa:
+      {Chronodash.DataSource.MeteoSIX.WRF, :get_forecast, [{43.37, -8.42}, :cloud_area_fraction]},
+    rate: :timer.hours(6),
+    metadata: %{source: "meteosix"}
+  },
+  %{
+    id: :meteosix_wrf_pressure,
+    mfa:
+      {Chronodash.DataSource.MeteoSIX.WRF, :get_forecast,
+       [{43.37, -8.42}, :air_pressure_at_sea_level]},
+    rate: :timer.hours(6),
+    metadata: %{source: "meteosix"}
+  },
+  %{
+    id: :meteosix_wrf_snow,
+    mfa: {Chronodash.DataSource.MeteoSIX.WRF, :get_forecast, [{43.37, -8.42}, :snow_level]},
+    rate: :timer.hours(6),
+    metadata: %{source: "meteosix"}
+  }
+]
+
 # Finch configuration
 config :chronodash, :http_client, Chronodash.HttpClient.Finch
 
