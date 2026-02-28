@@ -5,6 +5,8 @@ defmodule MeteoSIX do
   """
   alias Chronodash.HttpClient
 
+  require Logger
+
   def config do
     Application.get_env(:chronodash, :meteosix)
   end
@@ -29,13 +31,23 @@ defmodule MeteoSIX do
       |> Keyword.merge(params)
       |> Enum.reject(fn {_, v} -> is_nil(v) end)
 
-    parse_request(HttpClient.get(url, [], Keyword.put(opts, :params, final_params)))
+    response = HttpClient.get(url, [], Keyword.put(opts, :params, final_params))
+
+    Logger.info("MeteoSIX Response: #{inspect(response)}")
+    parse_request(response)
   end
 
-  defp parse_request({:ok, %{"status" => "200", "body" => data}}), do: {:ok, data}
+  defp parse_request({:ok, %{status: 200, body: %{"exception" => %{"message" => msg}}}}) do
+    {:error, "MeteoSIX Exception: #{msg}"}
+  end
 
-  defp parse_request({:error, %{"status" => status, "message" => message}}),
-    do: {:error, "#{status}: #{message}"}
+  defp parse_request({:ok, %{status: 200, body: data}}), do: {:ok, data}
+
+  defp parse_request({:ok, %{status: status, body: body}}),
+    do: {:error, "HTTP #{status}: #{body}"}
+
+  defp parse_request({:error, %{message: message}}),
+    do: {:error, message}
 
   defp parse_request({:error, reason}), do: {:error, reason}
 end
