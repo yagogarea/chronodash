@@ -12,8 +12,8 @@ Table users {
   email varchar [not null, unique]
   city varchar
   alert_hours varchar
-  inserted_at timestamptz
-  updated_at timestamptz
+  inserted_at timestamp
+  updated_at timestamp
 }
 
 Table locations {
@@ -22,20 +22,20 @@ Table locations {
   latitude float [not null]
   longitude float [not null]
   external_id varchar [note: 'ID for external providers like MeteoSIX locationIds']
-  inserted_at timestamptz
-  updated_at timestamptz
+  inserted_at timestamp
+  updated_at timestamp
 }
 
 Table observations {
   location_id uuid [ref: > locations.id]
   metric_type varchar [note: 'temperature, wind_speed, sky_state, etc.']
-  timestamp timestamptz [not null]
+  timestamp timestamp [not null]
   value float [not null]
   unit varchar
   source varchar [not null, note: 'meteosix, openweather, etc.']
   metadata jsonb [note: 'Extra provider-specific data']
-  inserted_at timestamptz
-  updated_at timestamptz
+  inserted_at timestamp
+  updated_at timestamp
 
   indexes {
     (location_id, metric_type, timestamp) [pk]
