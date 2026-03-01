@@ -1,3 +1,20 @@
+# Elixir backend that analyzes meteoFIX data, provides insights, and integrates with Grafana.
+
+# Copyright (C) 2026 Santiago Garea Cidre, Paula Carril Gontán, and Saúl Zas Carballal
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
 %{
   "ash": {:hex, :ash, "3.18.0", "9548e0db48e3a51132e0ebe8674fec6a7fa2752fc65bae3f546bca4a98d22ec9", [:mix], [{:crux, ">= 0.1.2 and < 1.0.0-0", [hex: :crux, repo: "hexpm", optional: false]}, {:decimal, "~> 2.0", [hex: :decimal, repo: "hexpm", optional: false]}, {:ecto, "~> 3.7", [hex: :ecto, repo: "hexpm", optional: false]}, {:ets, "~> 0.8", [hex: :ets, repo: "hexpm", optional: false]}, {:igniter, ">= 0.6.29 and < 1.0.0-0", [hex: :igniter, repo: "hexpm", optional: true]}, {:jason, ">= 1.0.0", [hex: :jason, repo: "hexpm", optional: false]}, {:picosat_elixir, "~> 0.2", [hex: :picosat_elixir, repo: "hexpm", optional: true]}, {:plug, ">= 0.0.0", [hex: :plug, repo: "hexpm", optional: true]}, {:reactor, "~> 1.0", [hex: :reactor, repo: "hexpm", optional: false]}, {:simple_sat, ">= 0.1.1 and < 1.0.0-0", [hex: :simple_sat, repo: "hexpm", optional: true]}, {:spark, ">= 2.3.14 and < 3.0.0-0", [hex: :spark, repo: "hexpm", optional: false]}, {:splode, "~> 0.3", [hex: :splode, repo: "hexpm", optional: false]}, {:stream_data, "~> 1.0", [hex: :stream_data, repo: "hexpm", optional: false]}, {:telemetry, "~> 1.1", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm", "22e7cde0856ae4f4024c2d74a5b9d66209fb3959ffe5a018d1c55e86bff90d36"},
   "ash_phoenix": {:hex, :ash_phoenix, "2.3.19", "244b24256a7d730e5223f36f371a95971542a547a12f0fb73406f67977e86c97", [:mix], [{:ash, ">= 3.5.13 and < 4.0.0-0", [hex: :ash, repo: "hexpm", optional: false]}, {:igniter, "~> 0.6", [hex: :igniter, repo: "hexpm", optional: true]}, {:inertia, "~> 2.3", [hex: :inertia, repo: "hexpm", optional: true]}, {:phoenix, "~> 1.5.6 or ~> 1.6", [hex: :phoenix, repo: "hexpm", optional: false]}, {:phoenix_html, "~> 4.0", [hex: :phoenix_html, repo: "hexpm", optional: false]}, {:phoenix_live_view, "~> 0.20.3 or ~> 1.0-rc.1", [hex: :phoenix_live_view, repo: "hexpm", optional: false]}, {:spark, ">= 2.2.29 and < 3.0.0-0", [hex: :spark, repo: "hexpm", optional: false]}], "hexpm", "754a7d869a3961a927abb7ff700af9895d2e69dd3b8f9471b0aa8e859cc4b135"},
