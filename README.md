@@ -168,3 +168,10 @@ mix hex.audit
 3. Deploy the app with telemetry: `make deploy_with_tel`
 4. Access Grafana: `http://localhost:3000` (admin/admin)
 main
+
+## License
+---
+
+## License
+
+Chronodash is licensed under the [GNU GPLv3](https://github.com/yagogarea/chronodash/blob/main/LICENSE.md).
