@@ -24,6 +24,36 @@ config :chronodash, :meteosix,
   api_key: System.get_env("METEOSIX_API_KEY") || "KEY",
   base_url: "https://servizos.meteogalicia.gal/apiv5"
 
+config :chronodash, :alerts,
+  rules: [
+    # Alert if wind speed > 30 km/h at any point in the next 24h
+    %{
+      id: "high_wind_warning",
+      metric: "wind",
+      threshold: 30.0,
+      condition: :max_gt,
+      window_hours: 24,
+      cooldown_hours: 12,
+      message: "⚠️ High Wind Warning in %{location} in the next 24h: %{value} km/h",
+      channels: [:discord]
+    },
+    # Alert if no precipitation is expected in the next 6 hours
+    %{
+      id: "no_rain_forecast",
+      metric: "precipitation_amount",
+      threshold: 1.0,
+      # Maximum in the window is less than 1.0
+      condition: :max_lt,
+      window_hours: 6,
+      cooldown_hours: 6,
+      message: "☀️ Good news! No significant rain predicted in %{location} for the next 6 hours.",
+      channels: [:discord]
+    }
+  ],
+  channels: %{
+    discord: %{url: System.get_env("DISCORD_WEBHOOK_URL")}
+  }
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

@@ -1,15 +1,17 @@
 # Chronodash
 
-## Project Flow & Structure Info
+## Project Overview
 
-Chronodash is an Elixir/Phoenix application designed to provide web-based functionality and business logic handling.  
-The project follows a clear separation of concerns:
+Chronodash is a multi-datasource monitoring and monitoring application built with **Elixir**, **Phoenix**, and the **Ash Framework**. It is designed to collect time-series metrics from various providers (starting with MeteoSIX) and visualize them in **Grafana** using **TimescaleDB**.
 
-1. **Configuration** – All environment-specific and runtime settings are under `config/`.
-2. **Codebase** – Core Elixir modules live in `lib/`, split between backend logic (`chronodash`) and web interface (`chronodash_web`).
-3. **Privileged Resources** – `priv/` holds static assets, database migrations, seeds, and translation files.
-4. **Dockerization** – All container setup is located in `docker/` for easy deployment.
-5. **Tests** – Test files are isolated under `test/` to validate modules and controllers (not detailed here).
+
+## Key Architecture Concepts
+
+1. **Generic Polling Engine** – Orchestrates data collection from multiple sources using a standardized pipeline.
+2. **Standardized Data Contract** – All DataSources return a unified `ObservationData` struct, decoupling fetching logic from persistence.
+3. **Ash Framework** – Manages the domain logic and persistence layer with high-performance bulk operations.
+4. **TimescaleDB** – Optimized storage for time-series observations, enabling efficient long-term data retention and fast queries.
+5. **Observability** – Integrated with **PromEx** for system metrics and **Grafana** for business/weather metrics.
 
 ---
 
@@ -17,61 +19,33 @@ The project follows a clear separation of concerns:
 
 ```
 .
-├── AGENTS.md                 # Documentation or definition of system agents
-├── Makefile                  # Make script to automate project tasks
-├── README.md                 # Main project documentation
-├── config                    # Application configuration files
-│   ├── config.exs            # General project configuration
-│   ├── dev.exs               # Development-specific configuration
-│   ├── prod.exs              # Production-specific configuration
-│   ├── runtime.exs           # Runtime-loaded configuration
-│   └── test.exs              # Test environment configuration
-├── docker                    # Docker containerization files
-│   ├── Dockerfile
-│   ├── docker-compose.tel.yml
-│   └── docker-compose.yml
-├── lib                       # Main Elixir source code
-│   ├── chronodash            # Core business logic modules
-│   │   ├── application.ex
-│   │   ├── mailer.ex
-│   │   └── repo.ex
-│   ├── chronodash.ex         # Main project entry point
-│   ├── chronodash_web        # Web (Phoenix) layer of the project
-│   │   ├── controllers       # Web controllers handling routes and requests
-│   │   │   ├── error_json.ex
-│   │   │   └── health_controller.ex
-│   │   ├── endpoint.ex
-│   │   ├── gettext.ex
-│   │   ├── router.ex
-│   │   └── telemetry.ex
-│   └── chronodash_web.ex     # Web module entry point
-├── mix.exs                   # Mix configuration file (Elixir build tool)
-├── mix.lock                  # Dependency lockfile
-├── priv                      # Private application resources
-│   ├── gettext               # Translation files
-│   │   ├── en
-│   │   │   └── LC_MESSAGES
-│   │   │       └── errors.po
-│   │   └── errors.pot           # Translation template file
-│   ├── repo                   # Database-related files
-│   │   ├── migrations
-│   │   └── seeds.exs
-│   ├── specs                  # Specification files
-│   │   └── cronodash
-│   │       └── openapi.json
-│   └── static                 # Static assets served by Phoenix
-│       ├── favicon.ico
-│       └── robots.txt
-└── test                       # Project test files
-    ├── chronodash_web
-    │   └── controllers
-    │       └── error_json_test.exs
-    ├── support
-    │   ├── conn_case.ex
-    │   └── data_case.ex
-    └── test_helper.exs
+├── .env                        # Environment variables (API keys, DB credentials, etc.)
+├── .gitignore                  # Git ignore rules
+├── Makefile                    # Automation scripts (deploy, attach, db-up, etc.)
+├── config/                     # Configuration files
+├── docker/                     # Deployment infrastructure
+├── etc/                        # Provisioning and configuration
+│   ├── grafana/                # Dashboards and Datasource provisioning
+│   └── prometheus/             # Scraping configuration
+├── lib                         # Main Elixir source code
+│   ├── chronodash/             # Core Application
+│   │   ├── accounts/           # Ash Domain: User management
+│   │   ├── datasource/         # High-level data orchestration
+│   │   ├── metrics/            # Ash Domain: Locations and Observations
+│   │   ├── models/             # Standardized DTOs and internal contracts
+│   │   ├── polling/            # Generic Polling Engine (Supervisors/Workers)
+│   │   └── prom_ex/            # Custom metrics plugins
+│   ├── chronodash_web/         # Phoenix Web Layer
+│   ├── http_client/            # Centralized HTTP client (Finch + Req)
+│   └── meteosix/               # MeteoSIX API v5 Client
+├── priv                        # Database and static resources
+│   ├── repo/migrations/        # TimescaleDB hypertable migrations
+│   └── specs/schema.dbml       # Database design documentation
+└── test                        # Unit and integration tests
+    ├── chronodash/             # Core logic tests
+    └── support/                # Mock clients and test cases
 ```
-
+feat/add-docs
 # Dependencies
 
 This document lists all dependencies used in Chronodash, their purpose, and relevant version information.
@@ -180,3 +154,17 @@ mix hex.audit
 
 - **Ash Framework**: This project uses Ash (`~> 3.0`) as the primary domain layer. Migrations are managed by `AshPostgres` rather than plain Ecto — always use `mix ash_postgres.generate_migrations` when changing resources.
 - **Bandit vs Cowboy**: This project uses `bandit` as the HTTP server. Do not add `plug_cowboy` as a dependency.
+=======
+
+## Getting Started
+
+### Prerequisites
+- Docker & Docker Compose
+- Elixir 1.15+ (for local development)
+
+### Quick Start
+1. Get your MeteoSIX API Key and add it to `.env`.
+2. Configure your DB credentials in `.env`.
+3. Deploy the app with telemetry: `make deploy_with_tel`
+4. Access Grafana: `http://localhost:3000` (admin/admin)
+main

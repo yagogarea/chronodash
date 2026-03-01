@@ -7,3 +7,17 @@ datasources:
     url: http://prometheus:9090
     isDefault: true
     editable: true
+
+  - name: PostgreSQL
+    uid: postgres_db
+    type: postgres
+    access: proxy
+    url: postgres:5432
+    user: postgres
+    secureJsonData:
+      password: postgres
+    jsonData:
+      database: chronodash_dev
+      sslmode: 'disable'
+      postgresVersion: 1600
+      timescaledb: true

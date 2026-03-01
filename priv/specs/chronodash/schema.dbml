@@ -1,0 +1,53 @@
+// Use DBML to define your database schema
+// https://www.dbml.org/
+
+Project chronodash {
+  database_type: 'PostgreSQL + TimescaleDB'
+  Note: 'Chronodash: A multi-datasource metrics monitoring application'
+}
+
+Table users {
+  id uuid [primary key]
+  name varchar [not null]
+  email varchar [not null, unique]
+  city varchar
+  alert_hours varchar
+  inserted_at timestamp
+  updated_at timestamp
+}
+
+Table locations {
+  id uuid [primary key]
+  name varchar [not null, unique]
+  latitude float [not null]
+  longitude float [not null]
+  external_id varchar [note: 'ID for external providers like MeteoSIX locationIds']
+  inserted_at timestamp
+  updated_at timestamp
+}
+
+Table observations {
+  location_id uuid [ref: > locations.id]
+  metric_type varchar [note: 'temperature, wind_speed, sky_state, etc.']
+  timestamp timestamp [not null]
+  value float [not null]
+  unit varchar
+  source varchar [not null, note: 'meteosix, openweather, etc.']
+  metadata jsonb [note: 'Extra provider-specific data']
+  inserted_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (location_id, metric_type, timestamp) [pk]
+  }
+}
+
+// Many-to-Many for Users following Locations
+Table user_locations {
+  user_id uuid [ref: > users.id]
+  location_id uuid [ref: > locations.id]
+
+  indexes {
+    (user_id, location_id) [pk]
+  }
+}

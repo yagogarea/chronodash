@@ -1,0 +1,81 @@
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: Weather Alerts
+    folder: MeteoSIX Alerts
+    interval: 1m
+    rules:
+      - uid: high_wind_alert
+        title: High Wind Warning
+        condition: C
+        data:
+          - refId: A
+            datasourceUid: postgres_db
+            relativeTimeRange:
+              from: 3600
+              to: 0
+            model:
+              rawSql: "SELECT value, timestamp FROM observations WHERE metric_type = 'wind_module' AND timestamp > now() AND timestamp < now() + interval '24 hours' ORDER BY timestamp ASC"
+              format: table
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              expression: A
+              type: reduce
+              reducer: max
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              expression: B
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [30]
+                    type: gt
+                  operator:
+                    type: and
+        noDataState: OK
+        execErrState: Error
+        for: 0s
+        annotations:
+          summary: "High wind predicted: {{ index $values \"B\" }} km/h"
+        labels:
+          severity: warning
+
+      - uid: high_precip_alert
+        title: High Precipitation Warning
+        condition: C
+        data:
+          - refId: A
+            datasourceUid: postgres_db
+            relativeTimeRange:
+              from: 3600
+              to: 0
+            model:
+              rawSql: "SELECT value, timestamp FROM observations WHERE metric_type = 'precipitation_amount' AND timestamp > now() AND timestamp < now() + interval '6 hours' ORDER BY timestamp ASC"
+              format: table
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              expression: A
+              type: reduce
+              reducer: max
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              expression: B
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [5]
+                    type: gt
+                  operator:
+                    type: and
+        noDataState: OK
+        execErrState: Error
+        for: 0s
+        annotations:
+          summary: "Heavy rain predicted: {{ index $values \"B\" }} mm"
+        labels:
+          severity: critical

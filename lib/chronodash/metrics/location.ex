@@ -26,7 +26,6 @@ defmodule Chronodash.Metrics.Location do
     end
 
     attribute :external_id, :string do
-      description("ID used by external providers (e.g. MeteoSIX locationId)")
       public?(true)
     end
 
@@ -34,12 +33,18 @@ defmodule Chronodash.Metrics.Location do
   end
 
   actions do
-    defaults([
-      :read,
-      :destroy,
-      create: [:name, :latitude, :longitude, :external_id],
-      update: [:name, :latitude, :longitude, :external_id]
-    ])
+    defaults([:read, :destroy])
+
+    create :create do
+      accept([:name, :latitude, :longitude, :external_id])
+      upsert?(true)
+      upsert_identity(:name)
+      upsert_fields([:latitude, :longitude, :external_id])
+    end
+  end
+
+  identities do
+    identity(:name, [:name])
   end
 
   postgres do

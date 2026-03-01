@@ -53,5 +53,5 @@ services:
 
 networks:
   chronodash:
-    name: cronodash
+    name: chronodash
     driver: bridge

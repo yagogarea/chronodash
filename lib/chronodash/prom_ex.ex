@@ -63,14 +63,10 @@ defmodule Chronodash.PromEx do
       Plugins.Application,
       Plugins.Beam,
       {Plugins.Phoenix, router: ChronodashWeb.Router, endpoint: ChronodashWeb.Endpoint},
-      {Plugins.Ecto, otp_app: :chronodash, repos: [Chronodash.Repo]}
-      # Plugins.Oban,
-      # Plugins.PhoenixLiveView,
-      # Plugins.Absinthe,
-      # Plugins.Broadway,
+      {Plugins.Ecto, otp_app: :chronodash, repos: [Chronodash.Repo]},
 
       # Add your own PromEx metrics plugins
-      # Chronodash.Users.PromExPlugin
+      Chronodash.PromEx.MeteoSIXPlugin
     ]
   end
 

@@ -2,8 +2,8 @@ defmodule Chronodash.DataSource.MeteoSIX.WRF do
   @moduledoc """
   High-level service for fetching WRF Forecast from MeteoSIX.
   """
-  alias MeteoSIX.WRF
   alias Chronodash.Models.DataSource.MeteoSIX.WRF.Forecast
+  alias MeteoSIX.WRF
 
   @doc """
   Fetches forecast from MeteoSIX and parses it into a DTO.
@@ -11,7 +11,10 @@ defmodule Chronodash.DataSource.MeteoSIX.WRF do
   def get_forecast(id_or_coords, var_atom, opts \\ []) do
     case WRF.get_forecast(id_or_coords, var_atom, opts) do
       {:ok, response} ->
-        {:ok, Forecast.new(response, var_atom)}
+        case Forecast.new(response, var_atom) do
+          %Forecast{} = forecast -> {:ok, forecast}
+          {:error, _} = error -> error
+        end
 
       {:error, reason} ->
         {:error, reason}
