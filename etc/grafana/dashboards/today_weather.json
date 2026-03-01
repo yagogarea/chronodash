@@ -1,0 +1,726 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Graphics --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#063273e6",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#4fc3f7",
+                "value": null
+              },
+              {
+                "color": "#e0e0e0",
+                "value": 10
+              },
+              {
+                "color": "#ffb347",
+                "value": 25
+              },
+              {
+                "color": "#e94560",
+                "value": 35
+              },
+              {
+                "color": "#c62828",
+                "value": 40
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "chronodash_meteosix_wrf_observation_value{variable=\"temperature\"}",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Temperature",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#063273e6",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e0e0e0",
+                "value": null
+              },
+              {
+                "color": "#81d4fa",
+                "value": 1
+              },
+              {
+                "color": "#29b6f6",
+                "value": 5
+              },
+              {
+                "color": "#1565c0",
+                "value": 20
+              },
+              {
+                "color": "#533483",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "lengthmm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "chronodash_meteosix_wrf_observation_value{variable=\"precipitation_amount\"}",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Precipitations",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#063273e6",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e0e0e0",
+                "value": null
+              },
+              {
+                "color": "#ffb347",
+                "value": 20
+              },
+              {
+                "color": "#ff7043",
+                "value": 40
+              },
+              {
+                "color": "#e94560",
+                "value": 70
+              },
+              {
+                "color": "#c62828",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "velocitykmh"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "chronodash_meteosix_wrf_observation_value{variable=\"wind_module\"}",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Wind",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#063273e6",
+            "mode": "shades"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#e94560",
+                "value": null
+              },
+              {
+                "color": "#ffb347",
+                "value": 20
+              },
+              {
+                "color": "#e0e0e0",
+                "value": 40
+              },
+              {
+                "color": "#4fc3f7",
+                "value": 70
+              },
+              {
+                "color": "#533483",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "chronodash_meteosix_wrf_observation_value{variable=\"relative_humidity\"}",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Humidity",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1a1a2e",
+                "value": 0
+              },
+              {
+                "color": "#e94560",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "temperature"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e94560",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "wind"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#533483",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "precipitation"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#0f3460",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 15,
+        "x": 0,
+        "y": 6
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "chronodash_meteosix_wrf_observation_value{variable=\"temperature\"}",
+          "instant": false,
+          "legendFormat": "temperature",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "chronodash_meteosix_wrf_observation_value{variable=\"wind_module\"}",
+          "instant": false,
+          "legendFormat": "wind",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "builder",
+          "expr": "chronodash_meteosix_wrf_observation_value{variable=\"precipitation_amount\"}",
+          "instant": false,
+          "legendFormat": "precipitation",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Weather Forecast",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "PostgreSQL"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlPu"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "#f5c518",
+                  "text": "☀️ SOLEADO"
+                },
+                "2": {
+                  "color": "#c0c0c0",
+                  "text": "🌤 NUBES ALTAS"
+                },
+                "3": {
+                  "color": "#a8c8e8",
+                  "text": "⛅ PARCIAL NUBLADO"
+                },
+                "4": {
+                  "color": "#808080",
+                  "text": "☁️ NUBLADO"
+                },
+                "5": {
+                  "color": "#4a4a4a",
+                  "text": "🌫️ CUBIERTO"
+                },
+                "6": {
+                  "color": "#ff8c00",
+                  "text": "🌁 NIEBLA"
+                },
+                "7": {
+                  "color": "#1e90ff",
+                  "text": "🌦️ CHUBASCOS"
+                },
+                "8": {
+                  "color": "#4169e1",
+                  "text": "🌧️ CUBIERTO Y CHUBASCOS"
+                },
+                "9": {
+                  "color": "#d3d3d3",
+                  "text": "🌨️ NIEVE INTERMITENTE"
+                },
+                "10": {
+                  "color": "#87ceeb",
+                  "text": "🌦️ LLOVIZNA"
+                },
+                "11": {
+                  "color": "#0000cd",
+                  "text": "🌧️ LLUVIA"
+                },
+                "12": {
+                  "color": "#ffffff",
+                  "text": "❄️ NIEVE"
+                },
+                "13": {
+                  "color": "#e94560",
+                  "text": "⛈️ TORMENTA"
+                },
+                "14": {
+                  "color": "#ff7f50",
+                  "text": "🌫️ BRUMA"
+                },
+                "15": {
+                  "color": "#ff6347",
+                  "text": "🌁 BANCO DE NIEBLA"
+                },
+                "16": {
+                  "color": "#add8e6",
+                  "text": "🌥️ NUBES MEDIAS"
+                },
+                "17": {
+                  "color": "#b0e0e6",
+                  "text": "🌦️ LLUVIA DÉBIL"
+                },
+                "18": {
+                  "color": "#87cefa",
+                  "text": "🌦️ CHUBASCOS DÉBILES"
+                },
+                "19": {
+                  "color": "#8b0000",
+                  "text": "⛈️ TORMENTA Y DESPEJE"
+                },
+                "20": {
+                  "color": "#e0e0e0",
+                  "text": "🌨️ NIEVE FUNDIDA"
+                },
+                "21": {
+                  "color": "#9400d3",
+                  "text": "🌩️ LLUVIA Y GRANIZO"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#1a1a2e",
+                "value": 0
+              },
+              {
+                "color": "#e94560",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 15,
+        "y": 6
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "PostgreSQL"
+          },
+          "format": "time_series",
+          "rawSql": "SELECT\n  timestamp as time,\n  value as \"Sky State\",\n  locations.name as location\nFROM\n  observations\nJOIN\n  locations ON observations.location_id = locations.id\nWHERE\n  metric_type = 'sky_state'\n  AND locations.name IN ($location)\n  AND $__timeFilter(timestamp)\nORDER BY 1",
+          "refId": "A"
+        }
+      ],
+      "title": "Sky State",
+      "type": "stat"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 42,
+  "tags": [
+    "meteosix",
+    "weather"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "PostgreSQL"
+        },
+        "definition": "SELECT name FROM locations",
+        "includeAll": true,
+        "multi": true,
+        "name": "location",
+        "options": [],
+        "query": "SELECT name FROM locations",
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now",
+    "to": "now+24h"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Today Weather",
+  "uid": "today-weather",
+  "version": 1,
+  "weekStart": ""
+}

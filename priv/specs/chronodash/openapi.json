@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "CronoDash API",
+    "title": "ChronoDash API",
     "version": "0.1.0",
     "license": {
       "name": "MIT",
