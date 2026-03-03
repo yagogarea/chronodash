@@ -2,8 +2,7 @@
 
 ## Project Overview
 
-Chronodash is a multi-datasource monitoring and monitoring application built with **Elixir**, **Phoenix**, and the **Ash Framework**. It is designed to collect time-series metrics from various providers (starting with MeteoSIX) and visualize them in **Grafana** using **TimescaleDB**.
-
+Chronodash is a multi-datasource monitoring and metrics collection system built with *Elixir*, *Phoenix*, and the *Ash Framework*. It is designed to collect, store, and visualize time-series metrics from various providers (currently only MeteoSIX) and display them in **Grafana**.
 
 ## Key Architecture Concepts
 
@@ -135,17 +134,11 @@ This document lists all dependencies used in Chronodash, their purpose, and rele
 ### Elixir
 
 ```bash
-# Check for outdated packages
-mix hex.outdated
-
 # Update a specific package
 mix deps.update <package_name>
 
 # Update all packages
 mix deps.update --all
-
-# Check for known vulnerabilities
-mix hex.audit
 ```
 
 ---
@@ -153,7 +146,6 @@ mix hex.audit
 ## Notes
 
 - **Ash Framework**: This project uses Ash (`~> 3.0`) as the primary domain layer. Migrations are managed by `AshPostgres` rather than plain Ecto — always use `mix ash_postgres.generate_migrations` when changing resources.
-- **Bandit vs Cowboy**: This project uses `bandit` as the HTTP server. Do not add `plug_cowboy` as a dependency.
 =======
 
 ## Getting Started
@@ -168,9 +160,6 @@ mix hex.audit
 3. Deploy the app with telemetry: `make deploy_with_tel`
 4. Access Grafana: `http://localhost:3000` (admin/admin)
 main
-
-## License
----
 
 ## License
 
